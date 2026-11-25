@@ -350,3 +350,7 @@
     font-size: 0.8rem;
   }
 }
+.contentFrame:has(.boardList), .contentFrame:has(.contentGallery) {
+  width: min(1440px, calc(100% - clamp(32px, 6vw, 96px)));
+}
+.contentBody:has(.boardList), .contentBody:has(.contentGallery) { max-width: none; }

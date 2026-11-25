@@ -4,71 +4,80 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Search, UserRound, Menu, X } from "lucide-react";
 import { menus, siteName } from "../lib/site";
+
+function sectionFor(path) {
+  const matched = menus.find(([, links]) => links.some(([url]) => path === url || path.startsWith(url + "/")));
+  if (matched) return matched[0];
+  return ({
+    about: siteName, education: "학술대회", insurance: "공지 및 게시판", news: "공지 및 게시판",
+    member: "회원 서비스", support: "회원지원", public: "국민 안내", privacy: "개인정보 처리 안내",
+    admin: "관리자", search: "통합검색",
+  })[path.split("/")[1]] || siteName;
+}
+
 export default function Header({ signedIn }) {
   const [open, setOpen] = useState(false);
-  const toggle = useRef(null);
+  const header = useRef(null);
+  const opener = useRef(null);
   const path = usePathname();
-  useEffect(() => {
-    setOpen(false);
-  }, [path]);
+  useEffect(() => { setOpen(false); }, [path]);
   useEffect(() => {
     if (!open) return;
-    function escape(e) {
-      if (e.key === "Escape") {
-        setOpen(false);
-        toggle.current?.focus();
-      }
+    function outside(e) {
+      if (!header.current?.contains(e.target)) setOpen(false);
     }
-    window.addEventListener("keydown", escape);
-    return () => window.removeEventListener("keydown", escape);
+    document.addEventListener("pointerdown", outside);
+    return () => document.removeEventListener("pointerdown", outside);
   }, [open]);
-  return (
-    <header className={path === "/" ? "siteHeader homeHeader" : "siteHeader"}>
+  function reveal(e) {
+    opener.current = e.currentTarget;
+    setOpen(true);
+  }
+  function escape(e) {
+    if (open && e.key === "Escape") {
+      setOpen(false);
+      opener.current?.focus();
+    }
+  }
+  const section = sectionFor(path);
+  const image = section === "학술대회" ? "clinical-workshop" :
+    section === siteName ? "association-group" : "anniversary-address";
+  return <>
+    <header className={"siteHeader homeHeader" + (open ? " menuOpen" : "")} ref={header}
+      onKeyDown={escape} onMouseLeave={() => { if (window.matchMedia("(hover: hover)").matches) setOpen(false); }}
+      onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); }}>
       <div className="headInside">
-        <Link href="/" className="brand" aria-label={siteName + " 홈"}>
-          <img src="/brand/logo.svg" alt={siteName} />
-        </Link>
+        <Link href="/" className="brand" aria-label={siteName + " 홈"}><img src="/brand/logo.svg" alt={siteName} /></Link>
         <nav className="desktopNav" aria-label="주 메뉴">
-          {menus.map(([title, links]) => (
-            <details className="navGroup" name="header-group" key={title}
-              onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.open = false; }}
-              onKeyDown={e => { if (e.key === "Escape") { e.currentTarget.open = false; e.currentTarget.querySelector("summary").focus(); } }}>
-              <summary>{title}</summary>
-              <div>{links.map(([url, label]) => <Link href={url} key={url}
-                onClick={e => { e.currentTarget.closest("details").open = false; }}>{label}</Link>)}</div>
-            </details>
-          ))}</nav>
+          {menus.map(([title], i) => <button key={title} aria-expanded={open} aria-controls="allMenus"
+            onMouseEnter={reveal} onClick={e => { reveal(e); requestAnimationFrame(() => header.current?.querySelectorAll(".megaColumn")[i]?.querySelector("a")?.focus()); }}>{title}</button>)}
+        </nav>
         <div className="headTools">
-          <Link aria-label="통합검색" href="/search" className="iconButton">
-            <Search />
-          </Link>
-          <Link
-            href="/member"
-            className="memberButton"
-            aria-label={signedIn ? "내 정보" : "회원 로그인"}
-          >
-            <UserRound size={17} />
-            <span>{signedIn ? "내 정보" : "회원 로그인"}</span>
+          <Link aria-label="통합검색" href="/search" className="iconButton"><Search /></Link>
+          <Link href="/member" className="memberButton" aria-label={signedIn ? "내 정보" : "회원 로그인"}>
+            <UserRound size={17} /><span>{signedIn ? "내 정보" : "회원 로그인"}</span>
           </Link>
           <button
-            ref={toggle}
-            className="mobileSwitch iconButton"
-            onClick={() => setOpen(!open)}
-            aria-label={open ? "메뉴 닫기" : "전체 메뉴"}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-          >
+            className="mobileSwitch iconButton" aria-label={open ? "메뉴 닫기" : "전체 메뉴"}
+            aria-expanded={open} aria-controls="allMenus" onClick={e => { opener.current=e.currentTarget; setOpen(!open); }}>
             {open ? <X /> : <Menu />}
           </button>
         </div>
       </div>
-      {open && (
-        <nav id="mobile-nav" className="mobileNav" aria-label="모바일 메뉴">
-          {menus.map(([title, links]) => <details className="mobileGroup" key={title}>
-            <summary>{title}</summary>
-            {links.map(([url, label]) => <Link key={url} href={url} onClick={() => setOpen(false)}>{label}</Link>)}
-          </details>)}</nav>
-      )}
+      <div className="megaPanel" id="allMenus" inert={!open} aria-hidden={!open}>
+        <div className="megaClip"><div className="megaInside">
+          <p className="megaMotto">지금까지 30년<br/>앞으로 30년</p>
+          <nav className="megaColumns" aria-label="전체 메뉴">
+            {menus.map(([title, links]) => <div className="megaColumn" key={title}>
+              <strong>{title}</strong>
+              {links.map(([href,label]) => <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}
+            </div>)}
+          </nav>
+        </div></div>
+      </div>
     </header>
-  );
+    {path !== "/" && <div className="subHero" style={{backgroundImage: "linear-gradient(180deg,#051e31bc,#062b3f89),url(/media/"+image+".webp)"}}>
+      <span>{section}</span>
+    </div>}
+  </>;
 }

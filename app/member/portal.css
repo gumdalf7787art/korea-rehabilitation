@@ -212,3 +212,6 @@
     border: 1px solid #aaa;
   }
 }
+.portal:has(.boardList), .portal:has(form [name="board"]) {
+  width: min(1440px, calc(100% - clamp(32px, 6vw, 96px)));
+}
