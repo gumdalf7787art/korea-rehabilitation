@@ -147,8 +147,10 @@ export async function cancelRegistration(form) {
   withNote(path, change.meta.changes ? "cancelled" : "unavailable");
 }
 export async function consult(form) {
-  const m = await requireMember("/member/consult"),
-    category = fields(form, "category"),
+  const board = fields(form, "board");
+  const path = ["qa", "insurance"].includes(board) ? "/member/consult/" + board : "/member/consult";
+  const m = await requireMember(path),
+    category = board ? "사무국 문의" : fields(form, "category"),
     subject = fields(form, "subject"),
     body = fields(form, "body");
   if (
@@ -160,19 +162,19 @@ export async function consult(form) {
     !body ||
     body.length > 3000
   )
-    withNote("/member/consult", "invalid");
+    withNote(path, "invalid");
   if (category === "법률상담" && !qualified(m))
-    withNote("/member/consult", "approval");
+    withNote(path, "approval");
   const { DB } = await portalEnv();
   if (!(await allowedAttempt(DB, "consult", m.id, 8)))
-    withNote("/member/consult", "rate");
+    withNote(path, "rate");
   const now = timestamp();
   await DB.prepare(
-    "INSERT INTO consultations(id,member_id,category,subject,body,updated_at,created_at) VALUES(?,?,?,?,?,?,?)",
+    "INSERT INTO consultations(id,member_id,category,subject,body,updated_at,created_at,board) VALUES(?,?,?,?,?,?,?,?)",
   )
-    .bind(id(), m.id, category, subject, body, now, now)
+    .bind(id(), m.id, category, subject, body, now, now, ["qa","insurance"].includes(board) ? board : null)
     .run();
-  withNote("/member/consult", "sent");
+  withNote(path, "sent");
 }
 
 export async function saveFile(form) {

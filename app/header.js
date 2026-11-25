@@ -29,16 +29,15 @@ export default function Header({ signedIn }) {
           <img src="/brand/logo.svg" alt={siteName} />
         </Link>
         <nav className="desktopNav" aria-label="주 메뉴">
-          {menus.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              aria-current={path.startsWith(href) ? "page" : undefined}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
+          {menus.map(([title, links]) => (
+            <details className="navGroup" name="header-group" key={title}
+              onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.open = false; }}
+              onKeyDown={e => { if (e.key === "Escape") { e.currentTarget.open = false; e.currentTarget.querySelector("summary").focus(); } }}>
+              <summary>{title}</summary>
+              <div>{links.map(([url, label]) => <Link href={url} key={url}
+                onClick={e => { e.currentTarget.closest("details").open = false; }}>{label}</Link>)}</div>
+            </details>
+          ))}</nav>
         <div className="headTools">
           <Link aria-label="통합검색" href="/search" className="iconButton">
             <Search />
@@ -65,12 +64,10 @@ export default function Header({ signedIn }) {
       </div>
       {open && (
         <nav id="mobile-nav" className="mobileNav" aria-label="모바일 메뉴">
-          {menus.map(([url, title]) => (
-            <Link key={url} href={url} onClick={() => setOpen(false)}>
-              {title}
-            </Link>
-          ))}
-        </nav>
+          {menus.map(([title, links]) => <details className="mobileGroup" key={title}>
+            <summary>{title}</summary>
+            {links.map(([url, label]) => <Link key={url} href={url} onClick={() => setOpen(false)}>{label}</Link>)}
+          </details>)}</nav>
       )}
     </header>
   );

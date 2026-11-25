@@ -198,7 +198,7 @@ async function Consultations({ db, off }) {
                     {q.subject} · {q.status}
                   </summary>
                   <p className="muted">
-                    {q.name} · {q.category} · {dateKR(q.created_at)}
+                    {q.name} · {q.board === "insurance" ? "보험상담" : q.board === "qa" ? "Q&A" : q.category} · {dateKR(q.created_at)}
                   </p>
                   <p className="body">{q.body}</p>
                   <form action={respond} className="stack">

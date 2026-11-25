@@ -49,28 +49,28 @@ function Controls({ rotation, count, label }) {
 export default function HomeHero({ event, isOpen }) {
   const features = [
     {
-      image: "/media/association-group.webp",
-      label: "대한재활의학과의사회 30주년",
-      lines: ["함께 걸어온", "재활의학의 30년"],
-      copy: "춘계 학술대회에서 회원들이 한자리에 모였습니다.",
+      image: "/media/anniversary-address.webp",
+      label: "30주년 기념행사",
+      lines: ["30년의 길,", "그리고 그 다음 30년"],
+      copy: "재활의학과 의사들이 함께한 발자취를 돌아봅니다.",
       href: "/about",
       button: "의사회 소개",
     },
     {
       image: "/media/clinical-workshop.webp",
       label: "학술 · 교육",
-      lines: ["초음파로 살펴보는", "어깨와 팔의 움직임"],
-      copy: "춘계 학술대회 현장에서 상지·견관절 진료 경험을 나눴습니다.",
+      lines: ["학술활동을 통해", "최신 의료지견을 나눔"],
+      copy: "학술대회와 워크숍에서 최신 연구를 살피고, 진료실에서 쌓은 경험을 동료와 나눕니다.",
       href: event
         ? (isOpen ? "/member/events/" : "/education/event/") + event.id
         : "/education",
       button: event ? (isOpen ? "다가오는 행사 등록" : "행사 안내") : "학술·교육 둘러보기",
     },
     {
-      image: "/media/anniversary-address.webp",
-      label: "30주년 기념행사",
-      lines: ["30년의 길,", "그리고 그 다음 30년"],
-      copy: "재활의학과 의사들이 함께한 발자취를 돌아봅니다.",
+      image: "/media/association-group.webp",
+      label: "대한재활의학과의사회 30주년",
+      lines: ["함께 걸어온", "재활의학의 30년"],
+      copy: "춘계 학술대회에서 회원들이 한자리에 모였습니다.",
       href: "/about",
       button: "의사회 소개",
     },

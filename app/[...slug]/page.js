@@ -1,3 +1,4 @@
+import BoardList from "../board-list";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -18,7 +19,7 @@ import {
   listPublicFiles,
 } from "../../lib/content-store";
 import legacyData from "../../lib/legacy.json";
-import { siteUrl, siteName } from "../../lib/site";
+import { siteUrl, siteName, menus } from "../../lib/site";
 import "./content.css";
 
 export const dynamic = "force-dynamic";
@@ -339,6 +340,8 @@ async function Listing({ model, q, page, searchType }) {
   } else {
     return null;
   }
+  if (["insurance", "notices", "lecture"].includes(view))
+    return <BoardList rows={rows} path={path} q={q} type={searchType} page={page} empty={empty} />;
   return (
     <>
       <QueryForm
@@ -510,6 +513,7 @@ export default async function ContentPage({ params, searchParams }) {
   const page = Math.max(1, parseInt(query.p, 10) || 1);
   const parent =
     slug.length === 3 ? index.get("/" + slug.slice(0, 2).join("/")) : null;
+  const group = menus.find(([, links]) => links.some(([url]) => url === model.path || url === parent?.path));
   const links = [...(model.links || [])];
   if (model.source) links.push({ label: "공식 원문 보기", href: model.source });
   return (
@@ -521,11 +525,11 @@ export default async function ContentPage({ params, searchParams }) {
           <p>{model.description}</p>
         </header>
         {section && (
-          <nav className="contentTabs" aria-label={section.title + " 메뉴"}>
-            {[
+          <nav className="contentTabs" aria-label={(group?.[0] || section.title) + " 메뉴"}>
+            {(group ? group[1].map(([path, title]) => ({path, title})) : [
               { path: "/" + section.slug, title: "전체" },
               ...childPages(section.slug),
-            ].map((c) => (
+            ]).map((c) => (
               <Link
                 key={c.path}
                 href={c.path}

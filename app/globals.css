@@ -983,3 +983,31 @@ input {
   .videoGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .channelTV .sectionTitle { flex-wrap: wrap; }
 }
+.tvLead, .videoGrid button { border: 0; background: transparent; padding: 0; color: inherit; text-align: left; }
+.tvLead { display: block; width: 65%; margin: 0 auto 32px; }
+.tvLead strong { display: block; font-size: clamp(17px, 2vw, 28px); margin-top: 12px; }
+.tvAll { width: fit-content; margin: 32px auto 0; display: flex; align-items: center; gap: 10px; background: var(--brand-deep); color: white; border-radius: 24px; padding: 12px 22px; }
+.tvDialog { border: 0; border-radius: 14px; width: min(940px, 94vw); padding: 0; color: white; background: #101e24; }
+.tvDialog::backdrop { background: #041219d9; }
+.tvDialog header { display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 15px 20px; }
+.tvDialog header button { flex: none; border: 1px solid #657780; color: white; background: transparent; padding: 6px 12px; border-radius: 20px; }
+.navGroup { position: relative; }
+.navGroup summary, .mobileGroup summary { cursor: pointer; font-weight: 650; padding: 10px 0; }
+.navGroup > div { position: absolute; top: 100%; min-width: 165px; padding: 8px; border: 1px solid var(--line); background: white; color: var(--ink); border-radius: 8px; box-shadow: 0 10px 24px #06283422; }
+.navGroup a, .mobileGroup a { display: block; padding: 9px 12px; }
+.mobileNav { max-height: 80vh; overflow-y: auto; }
+.boardBar { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; padding: 28px 0 16px; }
+.boardBar b { color: var(--accent); }
+.boardBar form { display: flex; max-width: 100%; gap: 5px; }
+.boardBar select, .boardBar input { padding: 8px; min-width: 0; border: 1px solid var(--line); background: white; }
+.boardBar input { width: min(34vw,220px); }
+.boardBar button { display: grid; place-items: center; color: white; background: var(--accent); border: 0; min-width: 40px; }
+.boardList table { width: 100%; border-collapse: collapse; border-top: 3px solid #485760; }
+.boardList th, .boardList td { font-size: 14px; padding: 16px 8px; text-align: center; border-bottom: 1px solid #d7dcdf; }
+.boardList th { color: #51636a; font-weight: 600; border-bottom-color: #79878d; }
+.boardList td:nth-child(2) { text-align: left; width: 58%; font-size: 16px; }
+.boardList a:hover { text-decoration: underline; }
+@media(max-width: 650px) {
+  .boardList :is(th,td):nth-child(3), .boardList :is(th,td):nth-child(5) { display: none; }
+  .boardList th, .boardList td { padding: 12px 3px; }
+}

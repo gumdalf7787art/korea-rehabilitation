@@ -39,7 +39,7 @@ async function readHome() {
 const previousMenus = {
   "1/5": "/about/greeting",
   "1/6": "/about/history",
-  "1/7": "/about/organization",
+  "1/7": "/about/rules",
   "1/8": "/about/organization",
   "1/9": "/about/contact",
   "3/10": "/news/notices",

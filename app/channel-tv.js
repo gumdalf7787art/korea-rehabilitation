@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ChevronRight, Play } from "lucide-react";
 import { channelUrl } from "../lib/video-tab.mjs";
 
@@ -10,25 +10,34 @@ function Thumbnail({ video }) {
 }
 
 export default function ChannelTV({ videos }) {
-  const [playing, setPlaying] = useState(false);
+  const dialog = useRef(null);
+  const [playing, setPlaying] = useState(null);
   const [latest, ...more] = videos;
+  function play(video) {
+    setPlaying(video);
+    dialog.current.showModal();
+  }
   return (
     <section className="homeSection channelTV">
-      <div className="sectionTitle">
-        <h2>대한재활의학과의사회TV</h2>
-        <a href={channelUrl}>채널 전체 보기 <ChevronRight size={15} /></a>
-      </div>
-      {playing ? <iframe title={latest.title} src={"https://www.youtube-nocookie.com/embed/" + latest.id + "?autoplay=1"}
-        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen /> :
-        <button className="featuredVideo" aria-label={latest.title + " 재생"} onClick={() => setPlaying(true)}>
-          <Thumbnail video={latest} /><span><Play fill="currentColor" /></span>
-        </button>}
-      <h3><a href={"https://www.youtube.com/watch?v=" + latest.id}>{latest.title}</a></h3>
+      <div className="sectionTitle"><h2>대한재활의학과의사회TV</h2></div>
+      <button className="tvLead" onClick={() => play(latest)} aria-label={latest.title + " 재생"}>
+        <span className="featuredVideo"><Thumbnail video={latest} /><span><Play fill="currentColor" /></span></span>
+        <strong>{latest.title}</strong>
+      </button>
       <div className="videoGrid">
-        {more.map(video => <a key={video.id} href={"https://www.youtube.com/watch?v=" + video.id}>
+        {more.map(video => <button key={video.id} onClick={() => play(video)}>
           <Thumbnail video={video} /><strong>{video.title}</strong>
-        </a>)}
+        </button>)}
       </div>
+      <a className="tvAll" href={channelUrl}>전체영상 보러가기 <ChevronRight size={16} /></a>
+      <dialog className="tvDialog" ref={dialog} aria-labelledby="tvDialogTitle"
+        onClose={() => setPlaying(null)} onClick={e => { if (e.target === dialog.current) dialog.current.close(); }}>
+        {playing && <div>
+          <header><strong id="tvDialogTitle">{playing.title}</strong><button onClick={() => dialog.current.close()} autoFocus>닫기</button></header>
+          <iframe title={playing.title} src={"https://www.youtube-nocookie.com/embed/" + playing.id + "?autoplay=1"}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+        </div>}
+      </dialog>
     </section>
   );
 }
