@@ -4,6 +4,7 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-05-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "vars": { "LEGACY_BOARD_TEST_PUBLIC": "1" },
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "korea-rehabilitation" }],
   "d1_databases": [{ "binding": "DB", "database_name": "kpa-portal-db", "database_id": "c233d845-8555-463d-9bd7-248a66e778e2", "migrations_dir": "migrations" }],
