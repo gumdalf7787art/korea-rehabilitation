@@ -749,10 +749,8 @@ svg {
 .sectionTitle h2,
 .quickGrid strong,
 .page h1,
-.contentTitle h1,
 .contentFeature > h2,
 .contentBody > h2,
-.portal h1,
 .portal h2 {
   color: var(--brand-deep);
 }
@@ -1078,7 +1076,12 @@ html { scrollbar-gutter: stable; }
 }
 
 .headInside, .subNavInner, body:has(.subHero) #content { width: var(--header-width); margin-inline: auto; }
-:root { --header-width: min(var(--max), calc(100% - 80px)); }
+:root {
+  --header-width: min(var(--max), calc(100% - 80px));
+  --section-content-width: 85%;
+  --section-heading-size: 23px;
+  --section-heading-color: #303236;
+}
 @media (max-width: 1000px) { :root { --header-width: calc(100% - 48px); } }
 @media (max-width: 600px) { :root { --header-width: calc(100% - 36px); } }
 .subNav { border-block: 1px solid var(--line); background: white; }
@@ -1087,5 +1090,5 @@ html { scrollbar-gutter: stable; }
 .subNavInner > :first-child { border-inline-start: 1px solid var(--line); }
 .subNavInner > [aria-current] { box-shadow: inset 0 -2px var(--brand); color: var(--accent); font-weight: 650; }
 .subNavInner a:hover { background: var(--surface); }
-#content > .wrap.page { width: 85%; }
+#content > .wrap.page { width: var(--section-content-width); }
 @media print { .subNav { display: none; } }

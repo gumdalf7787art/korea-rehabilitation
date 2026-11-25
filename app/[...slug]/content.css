@@ -4,7 +4,7 @@
   padding: 24px 0 clamp(66px, 9vw, 140px);
 }
 .contentFrame {
-  width: 85%;
+  width: var(--section-content-width);
   margin: auto;
 }
 .contentCrumbs,
@@ -36,12 +36,14 @@
   color: inherit;
 }
 .contentTitle {
-  padding: clamp(38px, 6vw, 82px) 0 32px;
+  padding: 14px 0 22px;
 }
 .contentTitle h1 {
-  font-size: clamp(2rem, 4.5vw, 3.75rem);
-  line-height: 1.18;
-  letter-spacing: -0.055em;
+  font-size: var(--section-heading-size);
+  color: var(--section-heading-color);
+  font-weight: 700;
+  line-height: 1.65;
+  letter-spacing: normal;
   margin: 0;
   word-break: keep-all;
   overflow-wrap: anywhere;
@@ -285,10 +287,15 @@
   gap: 18px;
   margin: 26px 0;
 }
+.contentGallery {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 1.5vw, 18px);
+}
 .contentGallery figure {
   margin: 0;
 }
 .contentGallery img {
+  display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 1.6;
@@ -325,17 +332,13 @@
     flex: 0 0 auto;
   }
   .contentTiles,
-  .contentClinics,
-  .contentGallery {
+  .contentClinics {
     grid-template-columns: 1fr;
   }
   .contentRows a {
     align-items: flex-start;
     flex-direction: column;
     gap: 5px;
-  }
-  .contentTitle {
-    padding-top: 36px;
   }
   .contentSearch button {
     padding: 0 14px;
@@ -357,8 +360,8 @@
 .boardPostCategory {
   margin: 0;
   padding: 14px 0 22px;
-  font-size: 23px;
-  color: #303236;
+  font-size: var(--section-heading-size);
+  color: var(--section-heading-color);
   font-weight: 700;
 }
 .boardPostHeading {

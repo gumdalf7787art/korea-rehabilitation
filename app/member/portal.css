@@ -1,17 +1,19 @@
 .portal {
-  width: 85%;
+  width: var(--section-content-width);
   margin: 0 auto;
-  padding: 64px 0 80px;
+  padding: 38px 0 80px;
   color: var(--ink);
 }
 .portal.narrow {
   max-width: 580px;
 }
 .portal h1 {
-  font-size: clamp(32px, 5vw, 54px);
-  line-height: 1.15;
-  letter-spacing: -0.055em;
-  margin: 10px 0 20px;
+  font-size: var(--section-heading-size);
+  color: var(--section-heading-color);
+  font-weight: 700;
+  line-height: 1.65;
+  letter-spacing: normal;
+  margin: 0 0 16px;
 }
 .portal h2 {
   font-size: 24px;
@@ -188,9 +190,6 @@
   scroll-margin-top: 90px;
 }
 @media (max-width: 680px) {
-  .portal {
-    padding-top: 40px;
-  }
   .portal .pair {
     grid-template-columns: 1fr;
   }
