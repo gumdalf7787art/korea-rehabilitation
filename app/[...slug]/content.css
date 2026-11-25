@@ -4,7 +4,7 @@
   padding: 24px 0 clamp(66px, 9vw, 140px);
 }
 .contentFrame {
-  width: min(1120px, calc(100% - 48px));
+  width: 85%;
   margin: auto;
 }
 .contentCrumbs,
@@ -120,7 +120,7 @@
   letter-spacing: -0.04em;
 }
 .contentBody {
-  max-width: 900px;
+  max-width: 100%;
 }
 .contentBody > p {
   line-height: 1.85;
@@ -314,9 +314,6 @@
   }
 }
 @media (max-width: 580px) {
-  .contentFrame {
-    width: calc(100% - 32px);
-  }
   .contentTabs {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -350,7 +347,3 @@
     font-size: 0.8rem;
   }
 }
-.contentFrame:has(.boardList), .contentFrame:has(.contentGallery) {
-  width: min(1440px, calc(100% - clamp(32px, 6vw, 96px)));
-}
-.contentBody:has(.boardList), .contentBody:has(.contentGallery) { max-width: none; }

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Search, UserRound, Menu, X } from "lucide-react";
+import { Search, UserRound, Menu, X, House } from "lucide-react";
 import { menus, siteName } from "../lib/site";
 
 function sectionFor(path) {
@@ -15,7 +15,7 @@ function sectionFor(path) {
   })[path.split("/")[1]] || siteName;
 }
 
-export default function Header({ signedIn }) {
+export default function Header({ signedIn, sectionLinks }) {
   const [open, setOpen] = useState(false);
   const header = useRef(null);
   const opener = useRef(null);
@@ -40,8 +40,13 @@ export default function Header({ signedIn }) {
     }
   }
   const section = sectionFor(path);
-  const image = section === "학술대회" ? "clinical-workshop" :
-    section === siteName ? "association-group" : "anniversary-address";
+  const area = path.split("/")[1];
+  const parentPath = path.startsWith("/news/post/") ? "/news/notices" :
+    path.startsWith("/insurance/post/") ? "/insurance/notices" :
+    path.startsWith("/education/event/") ? "/education/calendar" : path;
+  const activeGroup = menus.find(([, links]) => links.some(([url]) => parentPath === url || parentPath.startsWith(url + "/")));
+  const siblings = activeGroup?.[1] || sectionLinks[area] ||
+    (area === "member" ? [["/member","마이페이지"],["/member/documents","자료실"],["/member/consult","상담·문의"]] : []);
   return <>
     <header className={"siteHeader homeHeader" + (open ? " menuOpen" : "")} ref={header}
       onKeyDown={escape} onMouseLeave={() => { if (window.matchMedia("(hover: hover)").matches) setOpen(false); }}
@@ -76,8 +81,16 @@ export default function Header({ signedIn }) {
         </div></div>
       </div>
     </header>
-    {path !== "/" && <div className="subHero" style={{backgroundImage: "linear-gradient(180deg,#051e31bc,#062b3f89),url(/media/"+image+".webp)"}}>
-      <span>{section}</span>
-    </div>}
+    {path !== "/" && <>
+      <div className="subHero"><span>{section}</span></div>
+      <nav className="subNav" aria-label="카테고리 내비게이션">
+        <div className="subNavInner">
+          <Link href="/" aria-label="홈"><House size={20} aria-hidden="true" /></Link>
+          {siblings.map(([href, label]) => <Link key={href} href={href}
+            aria-current={parentPath === href ? "page" : parentPath.startsWith(href + "/") && activeGroup ? "location" : undefined}>{label}</Link>)}
+          {!siblings.length && <span aria-current="page">{section}</span>}
+        </div>
+      </nav>
+    </>}
   </>;
 }

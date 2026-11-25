@@ -1,5 +1,5 @@
 .portal {
-  width: min(1050px, calc(100% - 40px));
+  width: 85%;
   margin: 0 auto;
   padding: 64px 0 80px;
   color: var(--ink);
@@ -211,7 +211,4 @@
   .portal.receipt .box {
     border: 1px solid #aaa;
   }
-}
-.portal:has(.boardList), .portal:has(form [name="board"]) {
-  width: min(1440px, calc(100% - clamp(32px, 6vw, 96px)));
 }

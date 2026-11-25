@@ -1,10 +1,6 @@
-import Link from "next/link";
 export function Frame({ title, description, narrow = false, children }) {
   return (
     <article className={"portal" + (narrow ? " narrow" : "")}>
-      <Link className="crumb" href="/">
-        대한재활의학과의사회
-      </Link>
       <h1>{title}</h1>
       {description && <p className="intro">{description}</p>}
       {children}

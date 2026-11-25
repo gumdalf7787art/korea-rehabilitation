@@ -19,7 +19,7 @@ import {
   listPublicFiles,
 } from "../../lib/content-store";
 import legacyData from "../../lib/legacy.json";
-import { siteUrl, siteName, menus } from "../../lib/site";
+import { siteUrl, siteName } from "../../lib/site";
 import "./content.css";
 
 export const dynamic = "force-dynamic";
@@ -488,19 +488,7 @@ function Breadcrumbs({ section, model, parent }) {
           }).replace(/</g, "\\u003c"),
         }}
       />
-      <nav aria-label="현재 위치" className="contentCrumbs">
-        {crumbs.map((p, i) =>
-          i === crumbs.length - 1 ? (
-            <span key={p.path} aria-current="page">
-              {p.title}
-            </span>
-          ) : (
-            <Link href={p.path} key={p.path}>
-              {p.title}
-            </Link>
-          ),
-        )}
-      </nav>
+
     </>
   );
 }
@@ -513,7 +501,6 @@ export default async function ContentPage({ params, searchParams }) {
   const page = Math.max(1, parseInt(query.p, 10) || 1);
   const parent =
     slug.length === 3 ? index.get("/" + slug.slice(0, 2).join("/")) : null;
-  const group = menus.find(([, links]) => links.some(([url]) => url === model.path || url === parent?.path));
   const links = [...(model.links || [])];
   if (model.source) links.push({ label: "공식 원문 보기", href: model.source });
   return (
@@ -524,26 +511,6 @@ export default async function ContentPage({ params, searchParams }) {
           <h1>{model.title}</h1>
           <p>{model.description}</p>
         </header>
-        {section && (
-          <nav className="contentTabs" aria-label={(group?.[0] || section.title) + " 메뉴"}>
-            {(group ? group[1].map(([path, title]) => ({path, title})) : [
-              { path: "/" + section.slug, title: "전체" },
-              ...childPages(section.slug),
-            ]).map((c) => (
-              <Link
-                key={c.path}
-                href={c.path}
-                aria-current={
-                  model.path === c.path || parent?.path === c.path
-                    ? "page"
-                    : undefined
-                }
-              >
-                {c.title}
-              </Link>
-            ))}
-          </nav>
-        )}
         {slug.length === 1 && section ? (
           <Overview section={section} />
         ) : (

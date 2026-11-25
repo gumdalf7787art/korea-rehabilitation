@@ -1039,8 +1039,8 @@ html { scrollbar-gutter: stable; }
 .megaMotto { margin: 0; font-size: clamp(19px, 1.8vw, 27px); font-weight: 680; line-height: 1.45; color: #b9ebf5; }
 .megaColumn a { display: block; padding: 6px 2px; font-size: 15px; }
 .megaColumn strong { display: none; }
-.subHero { height: 350px; padding: 80px 20px 0; display: grid; place-items: center; background-size: cover; background-position: center 46%; color: white; text-align: center; }
-.subHero span { font-size: clamp(32px, 4vw, 60px); font-weight: 720; }
+.subHero { background-image: url("/media/section-motion.webp"); background-color: #021824; height: 400px; padding: 80px 20px 0; display: grid; place-items: center; background-size: cover; background-position: center 46%; color: white; text-align: center; }
+.subHero span { font-size: clamp(27px, 3vw, 44px); font-weight: 450; }
 @media (max-width: 1000px) { .megaInside { width: calc(100% - 48px); } }
 @media (max-width: 800px) {
   .siteHeader .headInside { display: flex; }
@@ -1056,3 +1056,16 @@ html { scrollbar-gutter: stable; }
 @media print { .subHero, .megaPanel { display: none; } }@media (min-width: 601px) {
   .siteHeader .memberButton { width: 122px; }
 }
+
+.headInside, .subNavInner, body:has(.subHero) #content { width: var(--header-width); margin-inline: auto; }
+:root { --header-width: min(var(--max), calc(100% - 80px)); }
+@media (max-width: 1000px) { :root { --header-width: calc(100% - 48px); } }
+@media (max-width: 600px) { :root { --header-width: calc(100% - 36px); } }
+.subNav { border-block: 1px solid var(--line); background: white; }
+.subNavInner { display: flex; overflow-x: auto; }
+.subNavInner > * { flex: none; display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 clamp(14px, 2.2vw, 33px); border-inline-end: 1px solid var(--line); color: var(--muted); }
+.subNavInner > :first-child { border-inline-start: 1px solid var(--line); color: var(--accent); }
+.subNavInner > [aria-current] { box-shadow: inset 0 -2px var(--brand); color: var(--accent); font-weight: 650; }
+.subNavInner a:hover { background: var(--surface); }
+#content > .wrap.page { width: 85%; }
+@media print { .subNav { display: none; } }

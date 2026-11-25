@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { sections, childPages } from "../lib/content";
 import Header from "./header";
 import { description, siteName, siteUrl } from "../lib/site";
 import "./globals.css";
@@ -42,7 +43,7 @@ export default async function Layout({ children }) {
             __html: JSON.stringify(organization).replace(/</g, "\\u003c"),
           }}
         />
-        <Header signedIn={signedIn} />
+        <Header signedIn={signedIn} sectionLinks={Object.fromEntries(sections.map(({slug}) => [slug, childPages(slug).map(p => [p.path, p.title])]))} />
         <div id="content">{children}</div>
         <footer className="siteFooter">
           <div className="footerInner">
