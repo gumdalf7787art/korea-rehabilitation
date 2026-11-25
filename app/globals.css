@@ -760,123 +760,175 @@ input {
   accent-color: var(--accent);
 }
 
-/* The home header overlays the same photograph as the feature below it. */
+/* The photograph extends under the light home navigation. */
 .siteHeader.homeHeader {
   position: absolute;
   inset: 0 0 auto;
-  background: linear-gradient(
-    180deg,
-    rgba(3, 29, 38, 0.83),
-    rgba(3, 29, 38, 0.56)
-  );
-  color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
-.homeHeader :is(.desktopNav a, .iconButton, .memberButton) {
-  color: white;
-}
-.homeHeader .desktopNav a:hover {
-  color: var(--brand-light);
-}
-.homeHeader .memberButton {
-  border-color: rgba(255, 255, 255, 0.55);
-}
-.homeHeader .mobileNav {
-  color: var(--ink);
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid #adc6cc;
 }
 .home .hero {
   padding-top: 81px;
-  min-height: clamp(540px, 43vw, 680px);
+  min-height: clamp(560px, 44vw, 720px);
+  background: #082d40;
 }
 .home .heroInner {
   display: grid;
-  grid-template-columns: clamp(205px, 20vw, 320px) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 85px);
+  grid-template-columns: minmax(0, 1fr) clamp(210px, 20vw, 300px);
+  gap: clamp(20px, 5vw, 80px);
   align-items: center;
+  padding-block: 46px;
+}
+.heroPictures,
+.heroPictures img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.heroPictures {
+  z-index: -2;
+}
+.heroPictures img {
+  object-fit: cover;
+  object-position: center 43%;
+  opacity: 0;
+  transition: opacity 1.45s ease-in-out;
+}
+.heroPictures img:first-child {
+  object-position: center 35%;
+}
+.heroPictures img.current {
+  opacity: 1;
 }
 .home .heroShade {
   background: linear-gradient(
     90deg,
-    rgba(3, 40, 53, 0.91),
-    rgba(3, 40, 53, 0.84) 52%,
-    rgba(3, 31, 39, 0.22) 100%
+    rgba(2, 23, 40, 0.87),
+    rgba(3, 31, 53, 0.76) 30%,
+    rgba(4, 35, 53, 0.17) 63%,
+    rgba(2, 22, 32, 0.2)
   );
 }
-.heroCarousel {
-  border-radius: 18px;
-  background: #edfafd;
-  color: var(--brand-deep);
-  overflow: hidden;
-  box-shadow: 0 12px 32px #031f292b;
+.heroStory {
+  align-self: center;
+  min-width: 0;
 }
-.slideLink {
+.heroStory h1 {
+  font-size: clamp(38px, 4.1vw, 70px);
+}
+.heroStory h1 span {
   display: block;
-  padding: 26px 24px 17px;
 }
-.slideLink:focus-visible {
-  outline-offset: -4px;
+.heroStory .buttonLight {
+  margin-top: 9px;
 }
-.slideContent {
-  min-height: 151px;
-}
-.slideContent > svg {
-  color: var(--accent);
-}
-.slideContent h2 {
-  font-size: clamp(21px, 1.8vw, 29px);
-  margin: 18px 0 9px;
-}
-.hero .slideContent p {
-  font-size: 15px;
-  color: #365d69;
-  line-height: 1.55;
-  margin: 0;
+.heroStory > .slideControls {
+  width: max-content;
+  color: white;
+  margin-top: 23px;
+  border-top: 1px solid #ffffff70;
 }
 .slideControls {
-  border-top: 1px solid #c4dfe5;
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 5px 12px 5px 24px;
+  gap: 3px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
 }
 .slideControls > span {
   margin-right: auto;
-  font-size: 13px;
+  padding-right: 10px;
   font-weight: 700;
-  font-variant-numeric: tabular-nums;
 }
-.slideControls > span span {
+.slideControls small {
+  font-size: inherit;
   font-weight: 400;
 }
 .slideControls button {
   display: grid;
   place-items: center;
-  border: 0;
-  border-radius: 8px;
-  color: var(--accent);
-  background: transparent;
-  width: 36px;
+  width: 35px;
   height: 38px;
+  background: none;
+  border: 0;
+  color: inherit;
 }
 .slideControls button:hover {
-  background: var(--brand-hover);
+  background: #ffffff32;
 }
-.slideControls button svg {
-  width: 17px;
+.slideControls svg {
+  width: 16px;
+  height: 16px;
+}
+.heroCarousel {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 36px #051a2940;
+  background: var(--brand);
+}
+.posterLink {
+  flex: 1;
+  min-height: 0;
+  background-position: center bottom;
+  background-size: 100% 100%;
+  display: block;
+  padding: clamp(15px, 1.7vw, 26px);
+  color: #073443;
+}
+.posterLink:focus-visible {
+  outline-offset: -4px;
+}
+.posterCopy h2 {
+  margin: 0 0 9px;
+  font-size: clamp(22px, 2vw, 32px);
+  font-weight: 760;
+}
+.hero .posterCopy p {
+  font-size: clamp(13px, 1.05vw, 16px);
+  line-height: 1.5;
+  color: #284b58;
+  max-width: 22ch;
+}
+.heroCarousel .slideControls {
+  background: #139db9;
+  color: #00232f;
+  padding: 1px 9px 1px 16px;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .slideContent {
-    animation: slideIn 0.3s ease-out;
+  .heroText > * {
+    animation: heroCopyRise 0.85s cubic-bezier(0.2, 0.68, 0.25, 1) both;
   }
-  @keyframes slideIn {
+  .heroText h1 {
+    animation-delay: 0.09s;
+  }
+  .heroText p {
+    animation-delay: 0.17s;
+  }
+  .heroText a {
+    animation-delay: 0.24s;
+  }
+  .posterCopy {
+    animation: heroCopyRise 0.5s ease-out both;
+  }
+  @keyframes heroCopyRise {
     from {
-      opacity: 0.3;
-      transform: translateX(8px);
+      opacity: 0;
+      transform: translateY(16px);
     }
     to {
       opacity: 1;
-      transform: none;
+      transform: translateY(0);
     }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heroPictures img {
+    transition: none;
   }
 }
 @media (max-width: 800px) {
@@ -886,43 +938,45 @@ input {
 }
 @media (max-width: 650px) {
   .home .heroInner {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 1fr;
     gap: 22px;
-    padding-block: 30px 48px;
+    padding-block: 32px;
   }
-  .home .heroText {
-    grid-row: 1;
+  .heroStory h1 {
+    font-size: clamp(34px, 8vw, 48px);
   }
   .home .heroCarousel {
-    width: 100%;
-    border-radius: 13px;
+    justify-self: end;
+    width: clamp(156px, 49vw, 225px);
   }
-  .slideLink {
-    padding: 14px 18px;
+  .hero .posterCopy h2 {
+    font-size: 20px;
   }
-  .slideContent {
-    min-height: 65px;
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    align-content: center;
-    column-gap: 14px;
+  .hero .posterCopy p {
+    font-size: 13px;
   }
-  .slideContent > svg {
-    grid-row: 1/3;
-    align-self: center;
+  .posterLink {
+    padding: 12px;
   }
-  .slideContent h2 {
-    font-size: 19px;
-    margin: 0 0 3px;
+  .heroCarousel .slideControls {
+    padding: 0 3px 0 9px;
+    gap: 0;
   }
-  .hero .slideContent p {
-    font-size: 14px;
+  .heroCarousel .slideControls button {
+    width: 28px;
+    height: 32px;
   }
-  .slideControls {
-    padding: 1px 12px 1px 18px;
+  .heroPictures img:first-child {
+    object-position: 64% center;
   }
-  .slideControls button {
-    width: 42px;
-    height: 38px;
+  .home .heroShade {
+    background: linear-gradient(90deg, #051c30dc, #051c3055);
+  }
+}
+@media (min-width: 801px) {
+  .heroPictures img:first-child {
+    width: 89%;
+    object-position: center 10%;
+    mask-image: linear-gradient(90deg, black 0%, black 85%, transparent 100%);
   }
 }

@@ -26,10 +26,7 @@ export default function Header({ signedIn }) {
     <header className={path === "/" ? "siteHeader homeHeader" : "siteHeader"}>
       <div className="headInside">
         <Link href="/" className="brand" aria-label={siteName + " 홈"}>
-          <img
-            src={path === "/" ? "/brand/logo-white.svg" : "/brand/logo.svg"}
-            alt={siteName}
-          />
+          <img src="/brand/logo.svg" alt={siteName} />
         </Link>
         <nav className="desktopNav" aria-label="주 메뉴">
           {menus.map(([href, label]) => (

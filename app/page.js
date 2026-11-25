@@ -1,13 +1,11 @@
 import Link from "next/link";
-import HeroCarousel from "./hero-carousel";
+import HomeHero from "./hero-carousel";
 import { permanentRedirect, redirect } from "next/navigation";
 import {
   CalendarCheck2,
   Play,
   Files,
   BadgeCheck,
-  CalendarDays,
-  MapPin,
   BookOpen,
   Landmark,
   Stethoscope,
@@ -119,78 +117,19 @@ export default async function Home({ searchParams }) {
           __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
         }}
       />
-      <section className="hero">
-        <img
-          className="heroPhoto"
-          fetchPriority="high"
-          alt="대한재활의학과의사회 2025년 추계학술대회 강연 현장"
-          src="/media/hero.webp"
-          width="1920"
-          height="1080"
-        />
-        <div className="heroShade" />
-        <div className="heroInner">
-          <HeroCarousel eventId={event?.id} />
-          <div className="heroText">
-            <div className="heroLabel">
-              <span />
-              {event ? "학술대회·워크숍" : "학술 · 교육"}
-            </div>
-            <h1>
-              {event ? (
-                event.title
-              ) : (
-                <>
-                  재활의학의 경험을
-                  <br />
-                  함께 나눕니다.
-                </>
-              )}
-            </h1>
-            {event ? (
-              <p className="eventFacts">
-                <CalendarDays size={18} />
-                {new Date(event.starts_at).toLocaleDateString("ko-KR", {
-                  timeZone: "Asia/Seoul",
-                })}
-                <MapPin size={18} />
-                {event.location}
-              </p>
-            ) : (
-              <p>
-                학술대회와 실습 워크숍에서 만나는
-                <br className="mobileBreak" /> 재활의학과 전문의들의 진료 경험.
-              </p>
-            )}
-            <div className="heroActions">
-              <Link
-                className="buttonLight"
-                href={
-                  event
-                    ? (isOpen ? "/member/events/" : "/education/event/") +
-                      event.id
-                    : "/education"
-                }
-              >
-                {event
-                  ? isOpen
-                    ? "사전등록"
-                    : "행사 안내"
-                  : "학술·교육 둘러보기"}
-              </Link>
-              <Link
-                className="buttonGlass"
-                href={
-                  event ? "/education/event/" + event.id : "/education/archive"
-                }
-              >
-                {event ? "프로그램 보기" : "역대 학술대회"}
-              </Link>
-            </div>
-          </div>
-        </div>
-        <small className="photoCaption">2025 추계학술대회 현장</small>
-      </section>
+      <HomeHero
+        event={
+          event && {
+            id: event.id,
+            title: event.title,
+            location: event.location,
+            date: new Date(event.starts_at).toLocaleDateString("ko-KR", {
+              timeZone: "Asia/Seoul",
+            }),
+          }
+        }
+        isOpen={isOpen}
+      />
       <div className="homeBody">
         <nav className="quickGrid" aria-label="회원 업무 바로가기">
           {tasks.map(([Icon, title, sub, href]) => (
