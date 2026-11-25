@@ -775,18 +775,18 @@ input {
 .home .hero {
   --notice-width: min(400px, 32vw);
   padding-top: 81px;
-  min-height: clamp(560px, 44vw, 720px);
+  min-height: calc(clamp(560px, 44vw, 720px) + 200px);
   background: #082d40;
 }
 .home .heroInner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--notice-width);
-  gap: clamp(20px, 5vw, 80px);
+  gap: 0;
   align-items: stretch;
   align-self: stretch;
   width: 100%;
   margin: 0;
-  padding: 0 0 0 max(24px, calc((100% - var(--max)) / 2));
+  padding: 0;
 }
 .heroPictures,
 .heroPictures img {
@@ -802,7 +802,7 @@ input {
   object-fit: cover;
   object-position: center 43%;
   opacity: 0;
-  transition: opacity 1.45s ease-in-out;
+  transition: opacity 1.8s ease-in-out;
 }
 .heroPictures img:first-child {
   object-position: center 55%;
@@ -820,7 +820,11 @@ input {
   );
 }
 .heroStory {
-  align-self: center;
+  position: relative;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 72px 22px;
   min-width: 0;
 }
 .heroStory h1 {
@@ -832,27 +836,32 @@ input {
 .heroStory .buttonLight {
   margin-top: 9px;
 }
+.heroStory .heroLabel {
+  justify-content: center;
+}
 .heroStory > .slideControls {
-  width: max-content;
-  color: white;
-  margin-top: 23px;
-  border-top: 1px solid #ffffff70;
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 24px;
+  background: #001d31a8;
+  padding-inline: 8px;
 }
 .slideControls {
   display: flex;
   align-items: center;
-  gap: 3px;
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
+  justify-content: center;
 }
-.slideControls > span {
-  margin-right: auto;
-  padding-right: 10px;
-  font-weight: 700;
+.slideDot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
 }
-.slideControls small {
-  font-size: inherit;
-  font-weight: 400;
+.slideDot[aria-current]::before {
+  background: currentColor;
 }
 .slideControls button {
   display: grid;
@@ -910,7 +919,7 @@ input {
 }
 @media (prefers-reduced-motion: no-preference) {
   .heroText > * {
-    animation: heroCopyRise 0.85s cubic-bezier(0.2, 0.68, 0.25, 1) both;
+    animation: heroCopyRise 1.7s cubic-bezier(0.2, 0.68, 0.25, 1) both;
   }
   .heroText h1 {
     animation-delay: 0.09s;
@@ -964,13 +973,13 @@ input {
     gap: 0;
   }
   .home .heroStory {
-    min-height: 440px;
-    padding: 120px 20px 24px;
-    align-content: end;
+    min-height: 640px;
+    padding: 70px 20px;
+    align-content: center;
   }
   .home .heroPictures,
   .home .heroShade {
-    height: 507px;
+    height: 707px;
   }
   .heroPictures img:last-child {
     object-position: 70% center;
@@ -989,4 +998,47 @@ input {
   .home .posterCopy {
     max-width: 55%;
   }
+}
+.home .sectionTitle h2 { color: var(--brand); }
+
+.homeMenu {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.5vw, 22px);
+  margin-top: clamp(28px, 4vw, 64px);
+}
+.menuCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 16px;
+  aspect-ratio: 1;
+  padding: clamp(18px, 2.2vw, 36px);
+  border-radius: 12px;
+  background: var(--brand-tint) center / cover;
+  color: var(--brand-deep);
+}
+.menuCard:nth-child(3), .menuCard:nth-child(8) {
+  background-color: var(--brand-deep);
+  color: white;
+}
+.menuCard.photoCard { color: white; }
+.menuCard strong { font-size: clamp(19px, 2vw, 30px); letter-spacing: -.04em; }
+.cardSymbol { width: clamp(30px, 3vw, 48px); height: auto; }
+.cardArrow { position: absolute; top: 10%; right: 10%; width: 20px; }
+.menuCard:hover .cardArrow { transform: translate(2px, -2px); }
+@media (prefers-reduced-motion: no-preference) {
+  .heroPictures img { transform: scale(1.06); }
+  .heroPictures img.current { animation: heroZoom 8s linear both; }
+  @keyframes heroZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+  .heroPictures { overflow: hidden; }
+  .menuCard.inView { animation: heroCopyRise .8s cubic-bezier(.2,.68,.25,1) both; }
+}
+@media (max-width: 650px) {
+  .homeMenu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

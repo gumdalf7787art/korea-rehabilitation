@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HomeMenu from "./home-menu";
 import HomeHero from "./hero-carousel";
 import { permanentRedirect, redirect } from "next/navigation";
 import {
@@ -144,6 +145,7 @@ export default async function Home({ searchParams }) {
             </Link>
           ))}
         </nav>
+        <HomeMenu />
         <section className="homeSection">
           <div className="sectionTitle">
             <h2>의사회 소식</h2>

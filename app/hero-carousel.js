@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 
 const slides = [
   {
@@ -53,9 +53,9 @@ function useRotation(length, interval) {
     index,
     paused,
     setPaused,
-    step(offset) {
+    select(next) {
       setPaused(true);
-      setIndex((n) => (n + offset + length) % length);
+      setIndex(next);
     },
     interaction: {
       onMouseEnter: () => setHovered(true),
@@ -67,24 +67,16 @@ function useRotation(length, interval) {
   };
 }
 function Controls({ rotation, count, label }) {
-  const { index, paused, setPaused, step } = rotation;
+  const { index, paused, setPaused, select } = rotation;
   return (
-    <div className="slideControls">
-      <span>
-        {String(index + 1).padStart(2, "0")}{" "}
-        <small>/ {String(count).padStart(2, "0")}</small>
-      </span>
-      <button aria-label={label + " 이전"} onClick={() => step(-1)}>
-        <ChevronLeft />
-      </button>
-      <button
-        aria-label={label + (paused ? " 자동 전환 시작" : " 일시정지")}
-        onClick={() => setPaused(!paused)}
-      >
+    <div className="slideControls" role="group" aria-label={label}>
+      {Array.from({ length: count }, (_, i) => (
+        <button key={i} className="slideDot" aria-current={index === i ? "true" : undefined}
+          aria-label={label + " " + (i + 1) + "번 보기"} onClick={() => select(i)} />
+      ))}
+      <button aria-label={label + (paused ? " 자동 전환 시작" : " 일시정지")}
+        onClick={() => setPaused(!paused)}>
         {paused ? <Play /> : <Pause />}
-      </button>
-      <button aria-label={label + " 다음"} onClick={() => step(1)}>
-        <ChevronRight />
       </button>
     </div>
   );
@@ -171,8 +163,8 @@ export default function HomeHero({ event, isOpen }) {
       </div>
       <div className="heroShade" />
       <div className="heroInner">
-        <div className="heroStory" {...rotation.interaction}>
-          <div className="heroText" key={rotation.index}>
+        <div className="heroStory">
+          <div className="heroText" {...rotation.interaction} key={rotation.index}>
             <div className="heroLabel">
               <span />
               {feature.label}
