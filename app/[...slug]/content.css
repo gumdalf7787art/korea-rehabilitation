@@ -1,0 +1,352 @@
+.contentPage {
+  color: var(--ink);
+  background: white;
+  padding: 24px 0 clamp(66px, 9vw, 140px);
+}
+.contentFrame {
+  width: min(1120px, calc(100% - 48px));
+  margin: auto;
+}
+.contentCrumbs,
+.contentTabs,
+.contentActions,
+.contentPager,
+.contentMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.contentCrumbs {
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+.contentCrumbs > * + *:before {
+  content: "/";
+  color: #a9afb8;
+  margin-right: 8px;
+}
+.contentCrumbs a,
+.contentTabs a,
+.contentTiles a,
+.contentRows a,
+.contentActions a,
+.contentPager a {
+  text-decoration: none;
+  color: inherit;
+}
+.contentTitle {
+  padding: clamp(38px, 6vw, 82px) 0 32px;
+}
+.contentTitle h1 {
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  line-height: 1.18;
+  letter-spacing: -0.055em;
+  margin: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.contentTitle p {
+  font-size: clamp(1rem, 1.65vw, 1.22rem);
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 740px;
+  margin: 16px 0 0;
+  word-break: keep-all;
+}
+.contentTabs {
+  gap: 5px;
+  padding: 0 0 22px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 32px;
+  align-items: stretch;
+}
+.contentTabs a,
+.contentActions a,
+.contentPager a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-size: 0.95rem;
+  padding: 10px 16px;
+  border-radius: 999px;
+}
+.contentTabs a {
+  color: var(--ink);
+  background: var(--surface);
+}
+.contentTabs a[aria-current],
+.contentTabs a:hover {
+  color: white;
+  background: var(--accent);
+}
+.contentTiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.contentTiles a,
+.contentClinics li {
+  background: var(--surface);
+  border-radius: 22px;
+  padding: clamp(22px, 3vw, 36px);
+  min-width: 0;
+}
+.contentTiles a:hover {
+  background: var(--brand-tint);
+}
+.contentTiles h2,
+.contentClinics h2 {
+  font-size: 1.35rem;
+  margin: 0 0 12px;
+  letter-spacing: -0.045em;
+  line-height: 1.35;
+}
+.contentTiles p,
+.contentClinics p {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--muted);
+  word-break: keep-all;
+}
+.contentFeature {
+  margin-top: 50px;
+}
+.contentFeature > h2,
+.contentBody > h2 {
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  margin: 24px 0 16px;
+  letter-spacing: -0.04em;
+}
+.contentBody {
+  max-width: 900px;
+}
+.contentBody > p {
+  line-height: 1.85;
+  white-space: pre-line;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.contentActions {
+  gap: 10px;
+  margin: 24px 0;
+}
+.contentActions a,
+.contentPager a {
+  color: var(--accent);
+  background: var(--brand-tint);
+  font-weight: 600;
+}
+.contentActions a:hover,
+.contentPager a:hover {
+  background: var(--brand-hover);
+}
+.contentFacts {
+  padding: 0;
+  margin: 24px 0;
+}
+.contentFacts > div {
+  display: grid;
+  grid-template-columns: minmax(85px, 120px) 1fr;
+  gap: 14px;
+  padding: 16px 4px;
+  border-top: 1px solid var(--line);
+  line-height: 1.6;
+}
+.contentFacts dt {
+  color: var(--muted);
+}
+.contentFacts dd {
+  margin: 0;
+}
+.contentMeta {
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 20px 0;
+}
+.contentRows,
+.contentClinics {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.contentRows li {
+  border-bottom: 1px solid var(--line);
+}
+.contentRows li:first-child {
+  border-top: 1px solid var(--line);
+}
+.contentRows a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 18px 6px;
+}
+.contentRows a:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.contentRowCopy {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.contentRowCopy small,
+.contentClinics small {
+  color: var(--accent);
+  font-size: 0.86rem;
+  font-weight: 630;
+}
+.contentRowCopy strong {
+  font-size: 1.08rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.contentRowCopy > span,
+.contentRows time {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+.contentRows time {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.contentEmpty {
+  padding: 26px;
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: 14px;
+  line-height: 1.7;
+}
+.contentSearch {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin: 0 0 24px;
+}
+.contentSearch label {
+  flex: 1;
+}
+.contentSearch input {
+  background: var(--surface);
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  min-width: 0;
+  border-radius: 12px;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+}
+.contentSearch button {
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  font: inherit;
+  font-weight: 650;
+  padding: 0 20px;
+  cursor: pointer;
+}
+.contentSearch > a {
+  align-self: center;
+  font-size: 0.92rem;
+  padding: 6px;
+}
+.contentPager {
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: center;
+}
+.contentCount {
+  color: var(--muted);
+  font-size: 1rem;
+}
+.contentFaq {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+}
+.contentFaq summary {
+  font-weight: 680;
+  cursor: pointer;
+}
+.contentFaq p {
+  line-height: 1.75;
+  color: var(--muted);
+}
+.contentGallery,
+.contentClinics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 26px 0;
+}
+.contentGallery figure {
+  margin: 0;
+}
+.contentGallery img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.6;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.contentGallery figcaption {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.contentVisuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@media (max-width: 780px) {
+  .contentTiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 580px) {
+  .contentFrame {
+    width: calc(100% - 32px);
+  }
+  .contentTabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 13px;
+    gap: 6px;
+  }
+  .contentTabs a {
+    flex: 0 0 auto;
+  }
+  .contentTiles,
+  .contentClinics,
+  .contentGallery {
+    grid-template-columns: 1fr;
+  }
+  .contentRows a {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .contentTitle {
+    padding-top: 36px;
+  }
+  .contentSearch button {
+    padding: 0 14px;
+  }
+  .contentSearch label {
+    min-width: 0;
+  }
+  .contentCrumbs {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,214 @@
+.portal {
+  width: min(1050px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 64px 0 80px;
+  color: var(--ink);
+}
+.portal.narrow {
+  max-width: 580px;
+}
+.portal h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.15;
+  letter-spacing: -0.055em;
+  margin: 10px 0 20px;
+}
+.portal h2 {
+  font-size: 24px;
+  margin: 0 0 16px;
+  letter-spacing: -0.035em;
+}
+.portal h3 {
+  font-size: 18px;
+  margin: 12px 0;
+}
+.portal a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+.portal .crumb {
+  font-size: 14px;
+  color: var(--muted);
+}
+.portal .intro {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.portal .box {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 19px;
+  padding: 24px;
+  margin: 16px 0;
+}
+.portal .pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.portal .pair .box {
+  margin: 0;
+}
+.portal form.stack {
+  display: grid;
+  gap: 15px;
+}
+.portal label.field {
+  font-size: 15px;
+  font-weight: 650;
+  display: grid;
+  gap: 6px;
+  color: var(--ink);
+}
+.portal input:not([type="checkbox"]),
+.portal textarea,
+.portal select {
+  font: inherit;
+  font-weight: 400;
+  color: var(--ink);
+  background: white;
+  border: 1px solid #889fa7;
+  border-radius: 9px;
+  padding: 10px 12px;
+  min-height: 44px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.portal textarea {
+  resize: vertical;
+}
+.portal input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+.portal button,
+.portal a.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 650;
+  color: white;
+  background: var(--accent);
+  border: 0;
+  border-radius: 100px;
+  padding: 10px 20px;
+  min-height: 42px;
+  text-decoration: none;
+}
+.portal button.secondary,
+.portal a.secondary {
+  background: var(--brand-tint);
+  color: var(--accent);
+}
+.portal :focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.portal .actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.portal .actions form {
+  margin: 0;
+}
+.portal .muted {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.portal .notice {
+  padding: 14px 18px;
+  border-left: 3px solid var(--brand);
+  background: var(--brand-tint);
+  margin: 18px 0;
+}
+.portal .rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.portal .rows > li {
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.portal .entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.portal .body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+}
+.portal summary {
+  cursor: pointer;
+  font-weight: 650;
+  padding: 8px 0;
+}
+.portal .pill {
+  display: inline-block;
+  padding: 3px 9px;
+  font-size: 14px;
+  background: var(--brand-tint);
+  color: var(--accent);
+  border-radius: 20px;
+}
+.portal .sections {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+.portal dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px 18px;
+}
+.portal dd {
+  margin: 0;
+}
+.portal dt {
+  color: var(--muted);
+}
+.portal .receipt {
+  max-width: 720px;
+}
+.portal section {
+  scroll-margin-top: 90px;
+}
+@media (max-width: 680px) {
+  .portal {
+    padding-top: 40px;
+  }
+  .portal .pair {
+    grid-template-columns: 1fr;
+  }
+  .portal .box {
+    padding: 18px;
+  }
+}
+@media print {
+  body:has(.receipt) header,
+  body:has(.receipt) footer,
+  .receipt .crumb,
+  .receipt .actions {
+    display: none;
+  }
+  .portal.receipt {
+    padding: 10px;
+  }
+  .portal.receipt .box {
+    border: 1px solid #aaa;
+  }
+}
