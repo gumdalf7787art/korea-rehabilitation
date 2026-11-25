@@ -3,6 +3,7 @@ import ChannelTV from "./channel-tv";
 import { getChannelVideos } from "../lib/channel-videos";
 import HomeMenu from "./home-menu";
 import HomeHero from "./hero-carousel";
+import SponsorStrip from "./sponsor-strip";
 import { permanentRedirect, redirect } from "next/navigation";
 import {
   CalendarCheck2,
@@ -191,6 +192,7 @@ export default async function Home({ searchParams }) {
         </section>
         <ChannelTV videos={videos} />
       </div>
+      <SponsorStrip />
     </main>
   );
 }

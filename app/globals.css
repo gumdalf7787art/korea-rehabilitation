@@ -772,7 +772,7 @@ input {
 }
 .home .hero {
   padding-top: 81px;
-  min-height: calc(clamp(560px, 44vw, 720px) - 50px);
+  min-height: 630px;
   background: #082d40;
 }
 .home .heroInner {
@@ -910,7 +910,6 @@ input {
   .heroStory h1 { font-size: clamp(34px, 8vw, 48px); }
 }
 @media (max-width: 650px) {
-  .home .hero { min-height: 457px; }
   .heroPictures img:last-child { object-position: 70% center; }
 }
 .home .sectionTitle h2 { color: var(--brand); }
@@ -1041,7 +1040,7 @@ html { scrollbar-gutter: stable; }
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  height: 280px;
+  height: 300px;
   padding: 80px 20px 0;
   display: grid;
   place-items: center;
@@ -1092,3 +1091,40 @@ html { scrollbar-gutter: stable; }
 .subNavInner a:hover { background: var(--surface); }
 #content > .wrap.page { width: var(--section-content-width); }
 @media print { .subNav { display: none; } }
+
+.sponsorStrip { padding: 30px 0 34px; background: var(--surface); }
+.sponsorTitle, .sponsorViewport { width: var(--header-width); margin-inline: auto; }
+.sponsorToggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  color: var(--brand-deep);
+}
+.sponsorViewport { container-type: inline-size; overflow: hidden; }
+.sponsorTrack { display: flex; width: max-content; animation: sponsorScroll 28s linear infinite; }
+.sponsorGroup { display: flex; gap: 16px; padding-inline-end: 16px; }
+.sponsorGroup a {
+  flex: none;
+  width: max(184px, calc(25cqw - 16px));
+  display: grid;
+  place-items: center;
+  aspect-ratio: 364 / 100;
+  background: white;
+  border-radius: 12px;
+}
+.sponsorGroup img { display: block; width: 100%; height: auto; border-radius: inherit; }
+.sponsorViewport:hover .sponsorTrack,
+.sponsorViewport[data-paused="true"] .sponsorTrack { animation-play-state: paused; }
+.sponsorViewport:has(:focus-visible) { overflow-x: auto; }
+.sponsorViewport:has(:focus-visible) .sponsorTrack { animation: none; }
+.sponsorViewport:has(:focus-visible) .sponsorGroup[aria-hidden="true"] { display: none; }
+@keyframes sponsorScroll { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .sponsorToggle, .sponsorGroup[aria-hidden="true"] { display: none; }
+  .sponsorViewport { overflow-x: auto; }
+  .sponsorTrack { animation: none; }
+}
