@@ -120,38 +120,38 @@ function NoticeCard({ event }) {
 export default function HomeHero({ event, isOpen }) {
   const features = [
     {
-      image: "/media/hero-clinic.webp",
+      image: "/media/association-group.webp",
+      label: "대한재활의학과의사회 30주년",
+      lines: ["함께 걸어온", "재활의학의 30년"],
+      copy: "춘계 학술대회에서 회원들이 한자리에 모였습니다.",
+      href: "/about",
+      button: "의사회 소개",
+    },
+    {
+      image: "/media/clinical-workshop.webp",
+      label: "학술 · 교육",
+      lines: ["초음파로 살펴보는", "어깨와 팔의 움직임"],
+      copy: "춘계 학술대회 현장에서 상지·견관절 진료 경험을 나눴습니다.",
+      href: event
+        ? (isOpen ? "/member/events/" : "/education/event/") + event.id
+        : "/education",
+      button: event ? (isOpen ? "다가오는 행사 등록" : "행사 안내") : "학술·교육 둘러보기",
+    },
+    {
+      image: "/media/anniversary-address.webp",
+      label: "30주년 기념행사",
+      lines: ["30년의 길,", "그리고 그 다음 30년"],
+      copy: "재활의학과 의사들이 함께한 발자취를 돌아봅니다.",
+      href: "/about",
+      button: "의사회 소개",
+    },
+    {
+      image: "/media/clinic-consultation.webp",
       label: "대한재활의학과의사회",
       lines: ["다시 움직이는 기쁨,", "일상으로 이어지도록."],
       copy: "환자의 움직임과 삶을 함께 살피는 재활의학과 의사들입니다.",
       href: "/about",
       button: "의사회 소개",
-    },
-    {
-      image: "/media/hero.webp",
-      label: "학술 · 교육",
-      lines: event
-        ? [event.title]
-        : ["진료실에서 만난 질문,", "학술대회에서 나눕니다."],
-      copy: event
-        ? event.date + " · " + event.location
-        : "강의와 실습으로 재활의학의 경험을 나눕니다.",
-      href: event
-        ? (isOpen ? "/member/events/" : "/education/event/") + event.id
-        : "/education",
-      button: event
-        ? isOpen
-          ? "사전등록"
-          : "행사 안내"
-        : "학술·교육 둘러보기",
-    },
-    {
-      image: "/media/conference-spring.webp",
-      label: "회원지원",
-      lines: ["혼자 고민하던 일도,", "동료와 함께."],
-      copy: "보험·청구부터 법률상담까지, 진료 현장의 고민을 함께 풀어갑니다.",
-      href: "/support",
-      button: "회원지원 살펴보기",
     },
   ];
   const rotation = useRotation(features.length, 8000),
