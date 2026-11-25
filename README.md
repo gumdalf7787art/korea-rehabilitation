@@ -17,8 +17,8 @@ npm run dev
 ## Cloudflare Workers 배포
 
 1. 대상 Cloudflare 계정에 Wrangler로 로그인한 뒤 전용 리소스를 준비합니다. D1 이름은 `kpa-portal-db`, 비공개 R2 버킷 이름은 `kpa-portal-files`입니다. 이미 준비된 리소스를 사용하려면 설정 파일의 이름을 해당 값으로 맞춥니다.
-2. `wrangler.jsonc`에서 D1의 `database_id`에 실제 UUID를 입력합니다. 이 저장소는 실계정 UUID를 포함하지 않습니다. 바인딩 이름은 D1이 `DB`, R2가 `FILES`입니다.
-3. `npm run db:remote`로 **대상 전용 데이터베이스**에 마이그레이션을 적용합니다.
+2. Worker 이름은 `korea-rehabilitation`이며 운영 D1의 UUID는 `wrangler.jsonc`에 설정되어 있습니다. 바인딩 이름은 D1이 `DB`, R2가 `FILES`입니다.
+3. 배포 명령은 대상 D1의 미적용 마이그레이션을 먼저 실행하고 성공하면 Worker를 배포합니다. Cloudflare 빌드 토큰에 해당 D1의 편집 권한이 필요합니다.
 4. `npm run cf:build`로 배포 번들을 생성합니다. `npm run preview`는 로컬 Workers 런타임을 실행합니다. 확인 후 `npm run deploy`로 빌드된 버전을 대상 Worker에 올립니다. Cloudflare 빌드 설정도 빌드 명령은 `npm run cf:build`, 배포 명령은 `npm run deploy`입니다.
 5. 배포된 Worker에서 관리자 역할·회비 확인·행사 등록·R2 다운로드를 점검한 후 커스텀 도메인을 연결합니다. 로컬 데이터와 운영 D1/R2는 별개입니다.
 

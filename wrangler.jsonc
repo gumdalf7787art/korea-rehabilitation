@@ -1,11 +1,11 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "kpa-member-portal",
+  "name": "korea-rehabilitation",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-05-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
-  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "kpa-member-portal" }],
-  "d1_databases": [{ "binding": "DB", "database_name": "kpa-portal-db", "migrations_dir": "migrations" }],
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "korea-rehabilitation" }],
+  "d1_databases": [{ "binding": "DB", "database_name": "kpa-portal-db", "database_id": "c233d845-8555-463d-9bd7-248a66e778e2", "migrations_dir": "migrations" }],
   "r2_buckets": [{ "binding": "FILES", "bucket_name": "kpa-portal-files" }]
 }
