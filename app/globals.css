@@ -274,47 +274,17 @@ svg {
   gap: 10px;
   flex-wrap: wrap;
 }
-.quickGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--line);
-  padding: 30px 0;
-}
-.quickGrid a {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 8px 22px;
-  border-left: 1px solid var(--line);
-}
-.quickGrid a:first-child {
-  border-left: 0;
-  padding-left: 0;
-}
-.taskIcon {
-  background: var(--brand-tint);
-  color: var(--brand);
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-.quickGrid strong,
 .services b {
   font-size: 18px;
   letter-spacing: -0.04em;
   display: block;
 }
-.quickGrid small,
 .services small {
   color: var(--muted);
   display: block;
   margin-top: 2px;
   font-size: 14px;
 }
-.quickGrid a:hover strong,
 .newsGrid a:hover h3,
 .services a:hover b {
   color: var(--accent);
@@ -538,13 +508,6 @@ svg {
   .desktopNav a {
     font-size: 14px;
   }
-  .quickGrid a {
-    padding: 5px 10px;
-    gap: 10px;
-  }
-  .quickGrid strong {
-    font-size: 16px;
-  }
 }
 @media (max-width: 800px) {
   .headInside {
@@ -568,18 +531,6 @@ svg {
   .mobileNav a {
     padding: 10px;
     border-bottom: 1px solid var(--line);
-  }
-  .quickGrid {
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 14px;
-    padding: 22px 0;
-  }
-  .quickGrid a:nth-child(odd) {
-    padding-left: 0;
-    border: 0;
-  }
-  .quickGrid a:nth-child(even) {
-    padding-left: 18px;
   }
   .newsGrid {
     gap: 10px;
@@ -650,16 +601,6 @@ svg {
   }
   .heroLabel {
     font-size: 14px;
-  }
-  .taskIcon {
-    height: 39px;
-    width: 39px;
-  }
-  .quickGrid small {
-    font-size: 12px;
-  }
-  .quickGrid a {
-    gap: 8px;
   }
   .homeSection {
     margin: 36px 0;
@@ -747,7 +688,6 @@ svg {
 }
 
 .sectionTitle h2,
-.quickGrid strong,
 .page h1,
 .contentFeature > h2,
 .contentBody > h2,
@@ -914,34 +854,68 @@ input {
 }
 .home .sectionTitle h2 { color: var(--brand); }
 
+.homeMenuSection {
+  padding: clamp(46px, 6.5vw, 94px) 0;
+  background: #041820 url("/media/menu-background.webp") center / cover no-repeat;
+  color: #f5f9fa;
+}
+.homeMenuSection h2 {
+  margin: 0 0 clamp(24px, 4vw, 52px);
+  color: inherit;
+  text-align: center;
+  font-size: clamp(35px, 5vw, 63px);
+  font-weight: 600;
+  line-height: 1.12;
+}
+.homeMenuSection h2 span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--brand-light);
+  font-size: clamp(14px, 1.5vw, 19px);
+  font-weight: 650;
+  letter-spacing: .05em;
+}
 .homeMenu {
+  width: var(--header-width);
+  margin-inline: auto;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(10px, 1.5vw, 22px);
-  margin-top: clamp(28px, 4vw, 64px);
+  gap: clamp(10px, 1.4vw, 20px);
 }
 .menuCard {
-  position: relative;
+  display: grid;
+  overflow: hidden;
+  border: 1px solid #b9ebf545;
+  background: #061820;
+  transition: border-color .25s ease, background-color .25s ease;
+}
+.menuCard:hover, .menuCard:focus-visible {
+  border-color: var(--brand);
+  background-color: #0b3948;
+}
+.menuCardPhoto {
+  display: block;
+  aspect-ratio: 3 / 2;
+  background-color: #102c37;
+}
+.menuCardPhoto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.menuCardPhoto[data-scene] {
+  background-image: url("/media/menu-editorial.webp");
+  background-size: 200% 200%;
+}
+.menuCardPhoto[data-scene="insurance"] { background-position: right top; }
+.menuCardPhoto[data-scene="legal"] { background-position: left bottom; }
+.menuCardPhoto[data-scene="membership"] { background-position: right bottom; }
+.menuCardLabel {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  gap: 16px;
-  aspect-ratio: 1;
-  padding: clamp(18px, 2.2vw, 36px);
-  border-radius: 12px;
-  background: var(--brand-tint) center / cover;
-  color: var(--brand-deep);
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  padding: clamp(10px, 1.5vw, 20px);
+  border-top: 1px solid #b9ebf535;
 }
-.menuCard:nth-child(3), .menuCard:nth-child(8) {
-  background-color: var(--brand-deep);
-  color: white;
-}
-.menuCard.photoCard { color: white; }
-.menuCard strong { font-size: clamp(19px, 2vw, 30px); letter-spacing: -.04em; }
-.cardSymbol { width: clamp(30px, 3vw, 48px); height: auto; }
-.cardArrow { position: absolute; top: 10%; right: 10%; width: 20px; }
-.menuCard:hover .cardArrow { transform: translate(2px, -2px); }
+.menuCard strong { font-size: clamp(14px, 1.5vw, 22px); font-weight: 600; }
+.cardArrow { color: var(--brand-light); }
 @media (prefers-reduced-motion: no-preference) {
   .heroPictures img { animation: heroZoom 10s linear alternate infinite; }
   .heroPictures img:nth-child(2) { animation-delay: -12s; }

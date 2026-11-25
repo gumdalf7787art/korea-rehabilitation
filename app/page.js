@@ -6,22 +6,13 @@ import HomeHero from "./hero-carousel";
 import SponsorStrip from "./sponsor-strip";
 import { permanentRedirect, redirect } from "next/navigation";
 import {
-  CalendarCheck2,
-  Play,
   Files,
-  BadgeCheck,
   ChevronRight,
 } from "lucide-react";
 import { articles, archiveEvents, galleryPosts } from "../lib/content";
 import { portalEnv } from "../lib/portal";
 import { siteName, siteUrl, description } from "../lib/site";
 export const metadata = { alternates: { canonical: "/" } };
-const tasks = [
-  [CalendarCheck2, "내 등록 확인", "학술대회 신청 내역", "/member"],
-  [Play, "강의 다시보기", "영상과 강의자료", "/education/library"],
-  [Files, "보험·청구 찾기", "고시와 심사 기준", "/insurance/notices"],
-  [BadgeCheck, "연회비 확인", "회원 자격과 납부 내역", "/member"],
-];
 async function readHome() {
   const { DB } = await portalEnv();
   const now = new Date().toISOString();
@@ -131,21 +122,8 @@ export default async function Home({ searchParams }) {
         }
         isOpen={isOpen}
       />
+      <HomeMenu />
       <div className="homeBody">
-        <nav className="quickGrid" aria-label="회원 업무 바로가기">
-          {tasks.map(([Icon, title, sub, href]) => (
-            <Link key={title} href={href}>
-              <span className="taskIcon">
-                <Icon aria-hidden="true" size={24} strokeWidth={1.7} />
-              </span>
-              <span>
-                <strong>{title}</strong>
-                <small>{sub}</small>
-              </span>
-            </Link>
-          ))}
-        </nav>
-        <HomeMenu />
         <section className="homeSection">
           <div className="sectionTitle">
             <h2>의사회 소식</h2>
