@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import SectionWaves from "./section-waves";
 import { Search, UserRound, Menu, X, House } from "lucide-react";
 import { menus, siteName } from "../lib/site";
 
@@ -82,7 +83,7 @@ export default function Header({ signedIn, sectionLinks }) {
       </div>
     </header>
     {path !== "/" && <>
-      <div className="subHero"><span>{section}</span></div>
+      <div className="subHero"><SectionWaves /><span>{section}</span></div>
       <nav className="subNav" aria-label="카테고리 내비게이션">
         <div className="subNavInner">
           <Link href="/" aria-label="홈"><House size={20} aria-hidden="true" /></Link>
