@@ -810,13 +810,9 @@ input {
   opacity: 1;
 }
 .home .heroShade {
-  background: linear-gradient(to bottom, #031326cc, transparent 130px), linear-gradient(
-    90deg,
-    rgba(2, 23, 40, 0.87),
-    rgba(3, 31, 53, 0.76) 30%,
-    rgba(4, 35, 53, 0.17) 63%,
-    rgba(2, 22, 32, 0.2)
-  );
+  background:
+    linear-gradient(to bottom, #031326b3, transparent 140px),
+    radial-gradient(ellipse at 50% 55%, #061d31a8 0%, #061d318c 32%, #061d314d 75%);
 }
 .heroStory {
   position: relative;
