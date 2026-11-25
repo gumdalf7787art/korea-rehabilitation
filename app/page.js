@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ChannelTV from "./channel-tv";
+import { getChannelVideos } from "../lib/channel-videos";
 import HomeMenu from "./home-menu";
 import HomeHero from "./hero-carousel";
 import { permanentRedirect, redirect } from "next/navigation";
@@ -7,9 +9,6 @@ import {
   Play,
   Files,
   BadgeCheck,
-  BookOpen,
-  Landmark,
-  Stethoscope,
   ChevronRight,
 } from "lucide-react";
 import { articles, archiveEvents } from "../lib/content";
@@ -77,7 +76,7 @@ export default async function Home({ searchParams }) {
       permanentRedirect(previousMenus[query.c]);
     }
   }
-  const { event, posts } = await readHome();
+  const [{ event, posts }, videos] = await Promise.all([readHome(), getChannelVideos()]);
   const isOpen =
     event &&
     event.opens_at <= new Date().toISOString() &&
@@ -190,54 +189,7 @@ export default async function Home({ searchParams }) {
               ))}
           </div>
         </section>
-        <section className="homeSection">
-          <div className="sectionTitle">
-            <h2>학술대회 기록</h2>
-            <Link href="/education/archive">
-              전체 기록 <ChevronRight size={15} />
-            </Link>
-          </div>
-          <div className="photoFeature">
-            <Link href="/education/archive">
-              <img
-                loading="lazy"
-                src="/media/conference-2024.webp"
-                alt="2024년 추계학술대회 강의실"
-              />
-              <div>
-                <BookOpen />
-                <h3>역대 학술대회</h3>
-                <p>춘·추계 학술대회와 워크숍 기록</p>
-              </div>
-            </Link>
-            <div className="services">
-              <Link href="/support/consultation">
-                <Landmark />
-                <span>
-                  <b>법률상담·회원 고충</b>
-                  <small>비공개 접수와 답변 확인</small>
-                </span>
-                <ChevronRight />
-              </Link>
-              <Link href="/public/hospitals">
-                <Stethoscope />
-                <span>
-                  <b>재활의학과 병의원 찾기</b>
-                  <small>지역별 회원 의료기관 안내</small>
-                </span>
-                <ChevronRight />
-              </Link>
-              <Link href="/support/purchase">
-                <BadgeCheck />
-                <span>
-                  <b>공동구매·제휴</b>
-                  <small>정회원 구매 혜택 확인</small>
-                </span>
-                <ChevronRight />
-              </Link>
-            </div>
-          </div>
-        </section>
+        <ChannelTV videos={videos} />
       </div>
     </main>
   );

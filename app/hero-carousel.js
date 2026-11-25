@@ -3,37 +3,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Pause, Play } from "lucide-react";
 
-const slides = [
-  {
-    title: "학술대회 안내",
-    description: "학술대회 일정과 등록 정보를 확인하세요.",
-    href: "/education/calendar",
-    art: "/media/popup-conference.svg",
-  },
-  {
-    title: "강의 다시보기",
-    description: "주제와 연자별로 학술대회 강의를 찾아보세요.",
-    href: "/education/library",
-    art: "/media/popup-lecture.svg",
-  },
-  {
-    title: "공동구매 안내",
-    description: "정회원 근전도 니들 공동구매와 신청 방법을 확인하세요.",
-    href: "/support/purchase",
-    art: "/media/popup-purchase.svg",
-  },
-  {
-    title: "의료공제조합",
-    description: "대한의사협회 의료배상공제조합 홈페이지로 이동합니다.",
-    href: "https://www.kmama.org/",
-    art: "/media/popup-mutual.svg",
-  },
-];
-
 function useRotation(length, interval) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(true);
-  const [hovered, setHovered] = useState(false);
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setPaused(preference.matches);
@@ -42,28 +14,21 @@ function useRotation(length, interval) {
     return () => preference.removeEventListener("change", sync);
   }, []);
   useEffect(() => {
-    if (paused || hovered) return;
+    if (paused) return;
     const timer = setInterval(() => {
       if (!document.hidden) setIndex((current) => (current + 1) % length);
     }, interval);
     return () => clearInterval(timer);
-  }, [paused, hovered, length, interval]);
+  }, [paused, length, interval]);
 
   return {
     index,
     paused,
     setPaused,
     select(next) {
-      setPaused(true);
       setIndex(next);
     },
-    interaction: {
-      onMouseEnter: () => setHovered(true),
-      onMouseLeave: () => setHovered(false),
-      onFocusCapture: (e) => {
-        if (e.target.matches(":focus-visible")) setPaused(true);
-      },
-    },
+
   };
 }
 function Controls({ rotation, count, label }) {
@@ -79,34 +44,6 @@ function Controls({ rotation, count, label }) {
         {paused ? <Play /> : <Pause />}
       </button>
     </div>
-  );
-}
-function NoticeCard({ event }) {
-  const rotation = useRotation(slides.length, 6000),
-    slide = slides[rotation.index];
-  return (
-    <aside
-      className="heroCarousel"
-      aria-label="회원 안내"
-      aria-roledescription="캐러셀"
-      {...rotation.interaction}
-    >
-      <Link
-        className="posterLink"
-        style={{ backgroundImage: "url(" + slide.art + ")" }}
-        href={
-          rotation.index === 0 && event
-            ? "/education/event/" + event.id
-            : slide.href
-        }
-      >
-        <div key={slide.title} className="posterCopy">
-          <h2>{slide.title}</h2>
-          <p>{slide.description}</p>
-        </div>
-      </Link>
-      <Controls rotation={rotation} count={slides.length} label="회원 안내" />
-    </aside>
   );
 }
 export default function HomeHero({ event, isOpen }) {
@@ -146,11 +83,11 @@ export default function HomeHero({ event, isOpen }) {
       button: "의사회 소개",
     },
   ];
-  const rotation = useRotation(features.length, 8000),
+  const rotation = useRotation(features.length, 4000),
     feature = features[rotation.index];
   return (
     <section className="hero" aria-label="의사회 주요 안내">
-      <div className="heroPictures" aria-hidden="true">
+      <div className="heroPictures" data-paused={rotation.paused} aria-hidden="true">
         {features.map((f, i) => (
           <img
             key={f.image}
@@ -164,7 +101,7 @@ export default function HomeHero({ event, isOpen }) {
       <div className="heroShade" />
       <div className="heroInner">
         <div className="heroStory">
-          <div className="heroText" {...rotation.interaction} key={rotation.index}>
+          <div className="heroText" key={rotation.index}>
             <div className="heroLabel">
               <span />
               {feature.label}
@@ -185,7 +122,7 @@ export default function HomeHero({ event, isOpen }) {
             label="대표 슬라이드"
           />
         </div>
-        <NoticeCard event={event} />
+
       </div>
     </section>
   );

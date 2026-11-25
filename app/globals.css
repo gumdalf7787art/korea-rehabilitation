@@ -773,14 +773,13 @@ input {
   color: white;
 }
 .home .hero {
-  --notice-width: min(400px, 32vw);
   padding-top: 81px;
   min-height: calc(clamp(560px, 44vw, 720px) + 200px);
   background: #082d40;
 }
 .home .heroInner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--notice-width);
+  grid-template-columns: minmax(0, 1fr);
   gap: 0;
   align-items: stretch;
   align-self: stretch;
@@ -879,44 +878,6 @@ input {
   width: 16px;
   height: 16px;
 }
-.heroCarousel {
-  width: 100%;
-  aspect-ratio: auto;
-  border-radius: 3px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 12px 36px #051a2940;
-  background: var(--brand);
-}
-.posterLink {
-  flex: 1;
-  min-height: 0;
-  background-position: center bottom;
-  background-size: 100% 100%;
-  display: block;
-  padding: clamp(15px, 1.7vw, 26px);
-  color: #073443;
-}
-.posterLink:focus-visible {
-  outline-offset: -4px;
-}
-.posterCopy h2 {
-  margin: 0 0 9px;
-  font-size: clamp(22px, 2vw, 32px);
-  font-weight: 760;
-}
-.hero .posterCopy p {
-  font-size: clamp(13px, 1.05vw, 16px);
-  line-height: 1.5;
-  color: #284b58;
-  max-width: 22ch;
-}
-.heroCarousel .slideControls {
-  background: #139db9;
-  color: #00232f;
-  padding: 1px 9px 1px 16px;
-}
 @media (prefers-reduced-motion: no-preference) {
   .heroText > * {
     animation: heroCopyRise 1.7s cubic-bezier(0.2, 0.68, 0.25, 1) both;
@@ -929,9 +890,6 @@ input {
   }
   .heroText a {
     animation-delay: 0.24s;
-  }
-  .posterCopy {
-    animation: heroCopyRise 0.5s ease-out both;
   }
   @keyframes heroCopyRise {
     from {
@@ -957,47 +915,9 @@ input {
 @media (max-width: 650px) {
   .heroStory h1 { font-size: clamp(34px, 8vw, 48px); }
 }
-@media (min-width: 651px) {
-  .heroStory {
-    padding-block: 32px;
-  }
-  .heroPictures img:last-child {
-    width: calc(100% - var(--notice-width));
-    object-position: 68% center;
-  }
-}
 @media (max-width: 650px) {
-  .home .heroInner {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 0;
-    gap: 0;
-  }
-  .home .heroStory {
-    min-height: 640px;
-    padding: 70px 20px;
-    align-content: center;
-  }
-  .home .heroPictures,
-  .home .heroShade {
-    height: 707px;
-  }
-  .heroPictures img:last-child {
-    object-position: 70% center;
-  }
-  .home .heroCarousel {
-    width: 100%;
-    min-height: 190px;
-  }
-  .home .posterLink {
-    background-size: auto 100%;
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-color: #e9f7fa;
-    padding: 24px;
-  }
-  .home .posterCopy {
-    max-width: 55%;
-  }
+  .home .hero { min-height: 707px; }
+  .heroPictures img:last-child { object-position: 70% center; }
 }
 .home .sectionTitle h2 { color: var(--brand); }
 
@@ -1030,8 +950,11 @@ input {
 .cardArrow { position: absolute; top: 10%; right: 10%; width: 20px; }
 .menuCard:hover .cardArrow { transform: translate(2px, -2px); }
 @media (prefers-reduced-motion: no-preference) {
-  .heroPictures img { transform: scale(1.06); }
-  .heroPictures img.current { animation: heroZoom 8s linear both; }
+  .heroPictures img { animation: heroZoom 16s linear alternate infinite; }
+  .heroPictures img:nth-child(2) { animation-delay: -12s; }
+  .heroPictures img:nth-child(3) { animation-delay: -8s; }
+  .heroPictures img:nth-child(4) { animation-delay: -4s; }
+  .heroPictures[data-paused="true"] img { animation-play-state: paused; }
   @keyframes heroZoom {
     from { transform: scale(1); }
     to { transform: scale(1.06); }
@@ -1041,4 +964,26 @@ input {
 }
 @media (max-width: 650px) {
   .homeMenu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.channelTV iframe, .featuredVideo, .channelTV img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  border: 0;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.featuredVideo { position: relative; background: var(--brand-deep); padding: 0; }
+.featuredVideo span {
+  position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+  display: grid; place-items: center; width: 64px; height: 64px;
+  border-radius: 50%; color: white; background: #063948df;
+}
+.channelTV h3 { margin: 16px 0 32px; font-size: clamp(20px, 2.4vw, 32px); }
+.videoGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 18px; }
+.videoGrid strong { display: block; margin-top: 10px; line-height: 1.5; }
+@media (max-width: 760px) {
+  .videoGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+  .channelTV .sectionTitle { flex-wrap: wrap; }
 }
