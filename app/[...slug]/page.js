@@ -509,6 +509,34 @@ function Breadcrumbs({ section, model, parent }) {
     </>
   );
 }
+const boardNames = {
+  "/news/notices": "공지사항",
+  "/news/post": "공지사항",
+  "/news/policy": "정책 활동",
+  "/news/gallery": "포토갤러리",
+  "/insurance/notices": "보험",
+  "/insurance/post": "보험",
+  "/education/archive": "역대 학술대회",
+};
+
+function BoardPostTitle({ model, board }) {
+  return (
+    <header>
+      <p className="boardPostCategory">{board}</p>
+      <div className="boardPostHeading">
+        <h1>{model.title}</h1>
+        <div className="boardPostMeta">
+          <span>작성자 <b>{model.author || "—"}</b></span>
+          <span>작성일 {model.date
+            ? <time dateTime={model.date}>{model.date.replaceAll("-", ".")}</time>
+            : "—"}</span>
+          <span>조회수 {model.views?.toLocaleString("ko-KR") ?? "—"}</span>
+        </div>
+      </div>
+    </header>
+  );
+}
+
 export default async function ContentPage({ params, searchParams }) {
   const [{ slug }, query] = await Promise.all([params, searchParams]);
   const model = await resolvePage(slug);
@@ -518,21 +546,23 @@ export default async function ContentPage({ params, searchParams }) {
   const page = Math.max(1, parseInt(query.p, 10) || 1);
   const parent =
     slug.length === 3 ? index.get("/" + slug.slice(0, 2).join("/")) : null;
+  const board = slug.length === 3 && boardNames["/" + slug.slice(0, 2).join("/")];
+  const isBoardPost = Boolean(board && model.date);
   const links = [...(model.links || [])];
   if (model.source) links.push({ label: "공식 원문 보기", href: model.source });
   return (
-    <main className="contentPage">
+    <main className={isBoardPost ? "contentPage boardPost" : "contentPage"}>
       <div className="contentFrame">
         <Breadcrumbs section={section} model={model} parent={parent} />
-        <header className="contentTitle">
+        {isBoardPost ? <BoardPostTitle model={model} board={board} /> : <header className="contentTitle">
           <h1>{model.title}</h1>
           <p>{model.description}</p>
-        </header>
+        </header>}
         {slug.length === 1 && section ? (
           <Overview section={section} />
         ) : (
           <div className="contentBody">
-            {model.group && (
+            {model.group && !isBoardPost && (
               <div className="contentMeta">
                 <span>{model.group}</span>
                 {model.date && (
@@ -547,6 +577,13 @@ export default async function ContentPage({ params, searchParams }) {
             {model.legacyHtml && <div className="legacyBody" dangerouslySetInnerHTML={{__html: model.legacyHtml}} />}
             {model.paragraphs?.map((p, i) => (
               <p key={i}>{p}</p>
+            ))}
+            {isBoardPost && !model.membersOnly && !model.legacyHtml && !model.paragraphs?.length && (
+              <p>{model.description}</p>
+            )}
+            {model.images?.map((src, index) => (
+              <img className="boardPostImage" key={src} src={src} loading="lazy"
+                alt={model.title + " 이미지 " + (index + 1)} />
             ))}
             {model.facts && (
               <dl className="contentFacts">
@@ -577,7 +614,7 @@ export default async function ContentPage({ params, searchParams }) {
                 searchType={query.type}
               />
             )}
-            <ActionLinks links={links} />
+            {!isBoardPost && <ActionLinks links={links} />}
             {model.path === "/news/gallery" && <Gallery q={q} page={page} />}
           </div>
         )}
