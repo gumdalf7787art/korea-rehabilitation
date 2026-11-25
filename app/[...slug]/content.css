@@ -347,3 +347,9 @@
     font-size: 0.8rem;
   }
 }
+.legacyBody { line-height: 1.85; overflow-wrap: anywhere; }
+.legacyBody p { margin-block: 0 1em; }
+.legacyBody img { display: block; max-width: 100%; height: auto; margin: 18px auto; border-radius: 8px; }
+.legacyBody table { width: 100%; border-collapse: collapse; margin-block: 16px; }
+.legacyBody :is(th,td) { border: 1px solid var(--line); padding: 10px; vertical-align: top; }
+.legacyBody a { color: var(--accent); text-decoration: underline; }

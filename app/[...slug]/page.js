@@ -1,3 +1,4 @@
+import { findLegacyPost, listLegacyBoard } from "../../lib/legacy-board-store";
 import BoardList from "../board-list";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -5,6 +6,7 @@ import {
   archiveEvents,
   articles,
   childPages,
+  galleryPosts,
   matchesQuery,
   publicPages,
   searchContent,
@@ -18,7 +20,7 @@ import {
   listEvents,
   listPublicFiles,
 } from "../../lib/content-store";
-import legacyData from "../../lib/legacy.json";
+
 import { siteUrl, siteName } from "../../lib/site";
 import "./content.css";
 
@@ -43,14 +45,14 @@ async function resolvePage(slug) {
     slug[1] === "post"
   )
     return getArticle(slug[0], slug[2]);
-  return null;
+  return findLegacyPost(path);
 }
 export async function generateMetadata({ params, searchParams }) {
   const page = await resolvePage((await params).slug);
   if (!page) return { robots: { index: false, follow: false } };
   const query = await searchParams;
   const robots = {
-    index: page.path !== "/search" && !query.q && !query.p,
+    index: !page.membersOnly && page.path !== "/search" && !query.q && !query.p,
     follow: true,
   };
   return {
@@ -340,6 +342,11 @@ async function Listing({ model, q, page, searchType }) {
   } else {
     return null;
   }
+  const imported = await listLegacyBoard(view);
+  if (imported.length) {
+    const importedSources = new Set(imported.map(post => post.source));
+    rows = [...rows.filter(row => !importedSources.has(row.source)), ...filter(imported, q)].sort(byDate);
+  }
   if (["insurance", "notices", "lecture"].includes(view))
     return <BoardList rows={rows} path={path} q={q} type={searchType} page={page} empty={empty} />;
   return (
@@ -359,22 +366,32 @@ async function Listing({ model, q, page, searchType }) {
     </>
   );
 }
-function Gallery() {
+function Gallery({ q, page }) {
+  const posts = filter(galleryPosts, q);
+  const perPage = 12;
+  const lastPage = Math.max(1, Math.ceil(posts.length / perPage));
+  const current = Math.min(page, lastPage);
+  const url = (number) => "/news/gallery?" + new URLSearchParams({ q, p: number });
   return (
-    <div className="contentGallery">
-      {legacyData.gallery.map((image) => (
-        <figure key={image.image}>
-          <img
-            src={image.image}
-            alt={image.alt}
-            loading="lazy"
-            width="640"
-            height="400"
-          />
-          <figcaption>{image.alt}</figcaption>
-        </figure>
-      ))}
-    </div>
+    <>
+      <QueryForm path="/news/gallery" q={q} placeholder="행사명으로 검색" />
+      <div className="contentGallery">
+        {posts.slice((current - 1) * perPage, current * perPage).map(post => (
+          <Link key={post.path} href={post.path}>
+            <figure>
+              {post.cover && <img src={post.cover} alt="" loading="lazy" width="640" height="400" />}
+              <figcaption>{post.title}</figcaption>
+            </figure>
+          </Link>
+        ))}
+      </div>
+      {!posts.length && <p className="contentEmpty">검색 결과가 없습니다.</p>}
+      {lastPage > 1 && <nav className="contentPager" aria-label="포토갤러리 페이지">
+        {current > 1 && <Link href={url(current - 1)}>이전</Link>}
+        <span>{current} / {lastPage}</span>
+        {current < lastPage && <Link href={url(current + 1)}>다음</Link>}
+      </nav>}
+    </>
   );
 }
 async function Overview({ section }) {
@@ -448,7 +465,7 @@ function Breadcrumbs({ section, model, parent }) {
         acceptedAnswer: { "@type": "Answer", text: answer },
       })),
     });
-  if (model.date && model.group !== "행사 기록")
+  if (model.date && !model.membersOnly && model.group !== "행사 기록")
     structured.push({
       "@type": "Article",
       headline: model.title,
@@ -527,6 +544,7 @@ export default async function ContentPage({ params, searchParams }) {
                 {model.effective && <span>시행 {model.effective}</span>}
               </div>
             )}
+            {model.legacyHtml && <div className="legacyBody" dangerouslySetInnerHTML={{__html: model.legacyHtml}} />}
             {model.paragraphs?.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
@@ -560,7 +578,7 @@ export default async function ContentPage({ params, searchParams }) {
               />
             )}
             <ActionLinks links={links} />
-            {model.path === "/news/gallery" && <Gallery />}
+            {model.path === "/news/gallery" && <Gallery q={q} page={page} />}
           </div>
         )}
       </div>

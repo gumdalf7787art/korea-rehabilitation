@@ -11,7 +11,7 @@ import {
   BadgeCheck,
   ChevronRight,
 } from "lucide-react";
-import { articles, archiveEvents } from "../lib/content";
+import { articles, archiveEvents, galleryPosts } from "../lib/content";
 import { portalEnv } from "../lib/portal";
 import { siteName, siteUrl, description } from "../lib/site";
 export const metadata = { alternates: { canonical: "/" } };
@@ -57,7 +57,7 @@ export default async function Home({ searchParams }) {
   const query = await searchParams;
   if (typeof query.c === "string" && Object.hasOwn(previousMenus, query.c)) {
     if (query.uid) {
-      const migrated = [...archiveEvents, ...articles].find(
+      const migrated = [...archiveEvents, ...articles, ...galleryPosts].find(
         (p) =>
           p.source && new URL(p.source).searchParams.get("uid") === query.uid,
       );
