@@ -812,14 +812,14 @@ input {
 .home .heroShade {
   background:
     linear-gradient(to bottom, #031326b3, transparent 140px),
-    radial-gradient(ellipse at 50% 55%, #061d31a8 0%, #061d318c 32%, #061d314d 75%);
+    radial-gradient(ellipse at 50% 51%, #061d31a8 0%, #061d318c 32%, #061d314d 75%);
 }
 .heroStory {
   position: relative;
   display: grid;
   place-items: center;
   text-align: center;
-  padding: 72px 22px;
+  padding: 72px 22px calc(72px + clamp(32px, 4vw, 56px));
   min-width: 0;
 }
 .heroStory h1 {
@@ -946,14 +946,14 @@ input {
 .cardArrow { position: absolute; top: 10%; right: 10%; width: 20px; }
 .menuCard:hover .cardArrow { transform: translate(2px, -2px); }
 @media (prefers-reduced-motion: no-preference) {
-  .heroPictures img { animation: heroZoom 16s linear alternate infinite; }
+  .heroPictures img { animation: heroZoom 10s linear alternate infinite; }
   .heroPictures img:nth-child(2) { animation-delay: -12s; }
   .heroPictures img:nth-child(3) { animation-delay: -8s; }
   .heroPictures img:nth-child(4) { animation-delay: -4s; }
   .heroPictures[data-paused="true"] img { animation-play-state: paused; }
   @keyframes heroZoom {
     from { transform: scale(1); }
-    to { transform: scale(1.06); }
+    to { transform: scale(1.18); }
   }
   .heroPictures { overflow: hidden; }
   .menuCard.inView { animation: heroCopyRise .8s cubic-bezier(.2,.68,.25,1) both; }
@@ -1024,7 +1024,7 @@ html { scrollbar-gutter: stable; }
 }
 .desktopNav button {
   padding: 12px 0; border: 0; background: transparent; color: white;
-  white-space: nowrap; font-size: clamp(13px, 1.05vw, 16px); font-weight: 650;
+  white-space: nowrap; font-size: calc(clamp(13px, 1.05vw, 16px) - 2pt); font-weight: 650;
 }
 .desktopNav button:hover, .megaColumn a:hover { color: var(--brand-light); }
 .headTools { justify-self: end; white-space: nowrap; }
@@ -1048,7 +1048,7 @@ html { scrollbar-gutter: stable; }
   .megaInside { display: block; padding: 15px 0 24px; max-height: calc(100dvh - 68px); overflow-y: auto; }
   .megaMotto { margin-bottom: 14px; font-size: 18px; }
   .megaColumns { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; text-align: left; }
-  .megaColumn strong { display: block; margin-bottom: 4px; }
+  .megaColumn strong { display: block; margin-bottom: 4px; font-size: calc(1em - 2pt); }
   .megaColumn a { font-size: 14px; }
 }
 @media (max-width: 600px) { .megaInside { width: calc(100% - 36px); } }
